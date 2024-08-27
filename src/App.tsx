@@ -3,8 +3,10 @@
 // import viteLogo from '/vite.svg'
 // import './App.css'
 
+import HomePage from "./pages/Home";
+
 function App() {
-  return <></>;
+  return <HomePage />;
 }
 
 export default App;
