@@ -8,6 +8,7 @@ import PageDetails from "./pages/PageDetails";
 import CategoryTab from "./components/CategoryTab";
 import { DataProvider } from "./contexts/UseDataContext";
 import HomePage from "./pages/Home";
+import CartPage from "./pages/CartPage";
 
 const router = createBrowserRouter([
   {
@@ -22,8 +23,12 @@ const router = createBrowserRouter([
     // ],
   },
   {
-    path: "product/:productID",
+    path: "/product/:productID",
     element: <PageDetails />,
+  },
+  {
+    path: "/checkout",
+    element: <CartPage />,
   },
 ]);
 

@@ -17,40 +17,22 @@ import useFecthData from "../hooks/useFecthData";
 import { useEffect, useState } from "react";
 import PaginationRounded from "./PaginationRounded";
 
-// interface ExpandMoreProps extends IconButtonProps {
-//   expand: boolean;
-// }
-
-// const ExpandMore = styled((props: ExpandMoreProps) => {
-//   const { expand, ...other } = props;
-//   return <IconButton {...other} />;
-// })(({ theme, expand }) => ({
-//   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-//   marginLeft: "auto",
-//   transition: theme.transitions.create("transform", {
-//     duration: theme.transitions.duration.shortest,
-//   }),
-// }));
-
 const pageSize = 3;
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+// const style = {
+//   position: "absolute" as "absolute",
+//   top: "50%",
+//   left: "50%",
+//   transform: "translate(-50%, -50%)",
+//   width: 400,
+//   bgcolor: "background.paper",
+//   border: "2px solid #000",
+//   boxShadow: 24,
+//   p: 4,
+// };
 
 export default function CardsAllProducts() {
-  const { dataProducts, getAllProducts } = useFecthData();
-  // const { dataProducts, singleDataProduct, getAllProducts, getSingleProducts } =
-  //   useDataContext();
-
-  //   getAllProducts();
+  const { dataProducts, getAllProducts, addSingleProductToCart } =
+    useFecthData();
   useEffect(() => {
     getAllProducts();
   }, []);
@@ -65,7 +47,9 @@ export default function CardsAllProducts() {
   // };
 
   // const handleClose = () => setOpen(false);
-
+  const addToCart = (id?: string | number) => {
+    addSingleProductToCart(id);
+  };
   console.log(pagination.count, pagination.from, pagination.to);
   const productsSlice = dataProducts.slice(pagination.from, pagination.to);
 
@@ -89,11 +73,6 @@ export default function CardsAllProducts() {
         {productsSlice.map((products, index) => (
           <Card sx={{ maxWidth: 345 }} key={index}>
             <CardHeader
-              //   avatar={
-              //     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              //       R
-              //     </Avatar>
-              //   }
               action={
                 <IconButton aria-label="settings">
                   <MoreVertIcon />
@@ -110,7 +89,11 @@ export default function CardsAllProducts() {
             />
 
             <CardActions disableSpacing>
-              <IconButton color="primary" aria-label="add to shopping cart">
+              <IconButton
+                onClick={() => addToCart(products.id)}
+                color="primary"
+                aria-label="add to shopping cart"
+              >
                 <AddShoppingCartIcon />
               </IconButton>
               <Button variant="contained">

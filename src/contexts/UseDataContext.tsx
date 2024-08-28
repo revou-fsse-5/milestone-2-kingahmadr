@@ -23,8 +23,10 @@ interface ProductProp {
 
 interface DataContextType {
   isAuthenticated?: boolean;
+  triggerInContext: boolean;
   total: number;
   addCartTotalContext: () => void;
+  handleTrigger: () => void;
   // handleAddToCart: (id: number) => void;
   // itemInCart: ProductProp[];
   //   dataProducts: ArrayString[];
@@ -38,8 +40,12 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return !!localStorage.getItem("accessToken");
   });
-  useEffect(() => addCartTotalContext(), []);
   const [total, setTotal] = useState(0);
+  const [triggerInContext, setTriggerInContext] = useState(false);
+
+  const handleTrigger = () => {
+    setTriggerInContext(!triggerInContext);
+  };
   const addCartTotalContext = () => {
     const existingCartItems = JSON.parse(
       localStorage.getItem("Carted") || "[]"
@@ -47,6 +53,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
     const itemTotal = existingCartItems.length;
     setTotal(itemTotal);
   };
+  useEffect(() => addCartTotalContext(), [triggerInContext]);
 
   const [checked, setChecked] = useState<boolean>(false);
   // const { userLoginData } = useFetchData();
@@ -55,8 +62,10 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
     <DataContext.Provider
       value={{
         isAuthenticated,
+        triggerInContext,
         total,
         addCartTotalContext,
+        handleTrigger,
       }}
     >
       {children}

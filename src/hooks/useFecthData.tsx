@@ -70,14 +70,14 @@ const useFecthData = () => {
         localStorage.getItem("Carted") || "[]"
       );
       // Check if the item already exists in the cart
-      const itemExists = existingCartItems.find(
-        (item: { id: string }) => item.id === id
-      );
+      // const itemExists = existingCartItems.find(
+      //   (item: { id: string }) => item.id === id
+      // );
 
-      if (itemExists) {
-        alert("This item is already in your cart.");
-        return;
-      }
+      // if (itemExists) {
+      //   alert("This item is already in your cart.");
+      //   return;
+      // }
 
       existingCartItems.push(responseData);
 
