@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { AllProductsProps } from "../interfaces";
-import { useNavigate } from "react-router-dom";
 
 const useFecthData = () => {
   const [dataProducts, setDataProducts] = useState<AllProductsProps[]>([]);
@@ -10,7 +9,6 @@ const useFecthData = () => {
     AllProductsProps[]
   >([]);
 
-  const navigate = useNavigate();
   const getAllProducts = async () => {
     const API_URL = "https://api.escuelajs.co/api/v1";
     try {
@@ -29,7 +27,7 @@ const useFecthData = () => {
       alert(`Error fetching data Products: ${error}`);
     }
   };
-  const getSingleProducts = async (id: string | undefined) => {
+  const getSingleProducts = async (id: number) => {
     const API_URL = "https://api.escuelajs.co/api/v1";
     try {
       const response = await fetch(`${API_URL}/products/${id}`, {
@@ -38,14 +36,12 @@ const useFecthData = () => {
       if (!response.ok) {
         // throw new Error(`Error fetching data: ${response.statusText}`);
         alert(`Error fetching Single Products: ${response.statusText}`);
-        navigate("/");
       }
       const responseData = await response.json();
-      setSingleDataProduct([responseData]);
+      setSingleDataProduct(responseData);
       // console.log(responseData);
     } catch (error) {
       alert(`Error fetching data Single Products: ${error}`);
-      navigate("/");
     }
   };
 
