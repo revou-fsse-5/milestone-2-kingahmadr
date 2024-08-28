@@ -12,8 +12,8 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import CardsAllProducts from "./CardsAllProducts";
-import CardsElectronicsProducts from "./CardsElectronicsProducts";
 import CardsShoesProducts from "./CardsShoesProducts";
+import CardsProductCategories from "./CardsProductCategories";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -94,7 +94,7 @@ export default function CategoryTab() {
           <CardsAllProducts />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <CardsElectronicsProducts />
+          <CardsProductCategories />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <CardsShoesProducts />

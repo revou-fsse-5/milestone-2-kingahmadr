@@ -31,11 +31,11 @@ import PaginationRounded from "./PaginationRounded";
 // }));
 
 const pageSize = 3;
-export default function CardsElectronicsProducts() {
-  const { dataElectronics, getElectronicProducts } = useFecthData();
+export default function CardsProductCategories() {
+  const { dataProductInCategories, getProductInCategories } = useFecthData();
 
   useEffect(() => {
-    getElectronicProducts();
+    getProductInCategories(5);
   }, []);
   const [pagination, setPagination] = useState({
     count: 5, // initial of anything
@@ -43,14 +43,17 @@ export default function CardsElectronicsProducts() {
     to: pageSize,
   });
 
-  console.log(
-    pagination.count,
+  // console.log(
+  //   pagination.count,
+  //   pagination.from,
+  //   pagination.to,
+  //   "Data Products: ",
+  //   dataProductInCategories.length
+  // );
+  const productsSlice = dataProductInCategories.slice(
     pagination.from,
-    pagination.to,
-    "Data Products: ",
-    dataElectronics.length
+    pagination.to
   );
-  const productsSlice = dataElectronics.slice(pagination.from, pagination.to);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -60,7 +63,7 @@ export default function CardsElectronicsProducts() {
     const to = (page - 1) * pageSize + pageSize;
     setPagination({
       ...pagination,
-      count: dataElectronics.length,
+      count: dataProductInCategories.length,
       from: from,
       to: to,
     });

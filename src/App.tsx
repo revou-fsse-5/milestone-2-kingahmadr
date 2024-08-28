@@ -3,38 +3,38 @@
 // import viteLogo from '/vite.svg'
 // import './App.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PageDetails from "./pages/PageDetails";
 import CategoryTab from "./components/CategoryTab";
 import { DataProvider } from "./contexts/UseDataContext";
-import Home from "./pages/Home";
+import HomePage from "./pages/Home";
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <CategoryTab />,
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />,
 
-//     // children: [
-//     //   {
-//     //     path: "product/:productID",
-//     //     element: <PageDetails />,
-//     //   },
-//     // ],
-//   },
-//   {
-//     path: "product/:productID",
-//     element: <PageDetails />,
-//   },
-// ]);
+    // children: [
+    //   {
+    //     path: "product/:productID",
+    //     element: <PageDetails />,
+    //   },
+    // ],
+  },
+  {
+    path: "product/:productID",
+    element: <PageDetails />,
+  },
+]);
 
 function App() {
   // Render the RouterProvider with the router configuration
   return (
     <>
-      {/* <DataProvider>
-        <RouterProvider router={router} />
-      </DataProvider> */}
       <DataProvider>
+        <RouterProvider router={router} />
+      </DataProvider>
+      {/* <DataProvider>
         <div className="App">
           <Router>
             <Routes>
@@ -43,7 +43,7 @@ function App() {
             </Routes>
           </Router>
         </div>
-      </DataProvider>
+      </DataProvider> */}
     </>
   );
 }

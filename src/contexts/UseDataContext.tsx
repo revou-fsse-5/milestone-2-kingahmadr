@@ -1,4 +1,10 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  ReactNode,
+  useEffect,
+} from "react";
 import useFecthData from "../hooks/useFecthData";
 
 interface ArrayString {
@@ -6,6 +12,7 @@ interface ArrayString {
 }
 
 interface ProductProp {
+  isAuthenticated: boolean;
   id?: number;
   title?: string;
   price?: number;
@@ -16,8 +23,10 @@ interface ProductProp {
 
 interface DataContextType {
   isAuthenticated?: boolean;
-  handleAddToCart: (id: number) => void;
-  itemInCart: ProductProp[];
+  total: number;
+  addCartTotalContext: () => void;
+  // handleAddToCart: (id: number) => void;
+  // itemInCart: ProductProp[];
   //   dataProducts: ArrayString[];
   //   handlePagination: () => void;
 }
@@ -29,16 +38,14 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return !!localStorage.getItem("accessToken");
   });
-  const { singleDataProduct } = useFecthData();
-  const [itemInCart, setItemInCart] = useState([]);
-  const handleAddToCart = (id: number) => {
-    const listArray = singleDataProduct.find((product) => product.id === id);
-    // const list = JSON.stringify(listArray);
-    // console.log(listArray);
-    //   setUserData((prevData) => [...prevData, responseData]);
-    setItemInCart((prevData) => [...prevData, listArray]);
-    // localStorage.setItem("Carted", JSON.stringify(itemInCart));
-    // console.log(itemInCart);
+  useEffect(() => addCartTotalContext(), []);
+  const [total, setTotal] = useState(0);
+  const addCartTotalContext = () => {
+    const existingCartItems = JSON.parse(
+      localStorage.getItem("Carted") || "[]"
+    );
+    const itemTotal = existingCartItems.length;
+    setTotal(itemTotal);
   };
 
   const [checked, setChecked] = useState<boolean>(false);
@@ -48,8 +55,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
     <DataContext.Provider
       value={{
         isAuthenticated,
-        itemInCart,
-        handleAddToCart,
+        total,
+        addCartTotalContext,
       }}
     >
       {children}

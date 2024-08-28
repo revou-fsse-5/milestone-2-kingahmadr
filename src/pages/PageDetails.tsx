@@ -8,14 +8,12 @@ import Typography from "@mui/material/Typography";
 import Navbar from "../components/Navbar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useDataContext } from "../contexts/UseDataContext";
-// import { DataProvider } from "../contexts/UseDataContext";
 
 const PageDetails = () => {
   let { productID } = useParams();
-  const { singleDataProduct, getSingleProducts } = useFecthData();
+  const { singleDataProduct, getSingleProducts, addSingleProductToCart } =
+    useFecthData();
   //   const { itemInCart, handleAddToCart } = useDataContext();
-  const [itemInCart, setItemInCart] = useState([]);
 
   useEffect(() => {
     // if (productID) {
@@ -26,20 +24,9 @@ const PageDetails = () => {
   if (!singleDataProduct) {
     return <div>Loading...</div>; // Handle the loading state or when data is not available
   }
-  const handleAddToCart = (id: number) => {
-    const listArray = singleDataProduct.find((product) => product.id === id);
-    // const list = JSON.stringify(listArray);
-    // console.log(listArray);
-    //   setUserData((prevData) => [...prevData, responseData]);
-    setItemInCart((prevData) => [...prevData, listArray]);
-    localStorage.setItem("Carted", JSON.stringify(itemInCart));
-    console.log(itemInCart);
+  const addToCart = (id?: string | number) => {
+    addSingleProductToCart(id);
   };
-  //   const addToCart = (id: number) => {
-  //     handleAddToCart(id);
-  //     localStorage.setItem("Carted", JSON.stringify(itemInCart));
-  //     console.log(itemInCart);
-  //   };
 
   const renderSingleProduct = Array.isArray(singleDataProduct) ? (
     singleDataProduct.map((product, index) => (
@@ -99,7 +86,7 @@ const PageDetails = () => {
           <Button
             sx={{ p: 1, m: "1rem" }}
             onClick={() => {
-              handleAddToCart(product.id);
+              addToCart(product.id);
             }}
             variant="contained"
           >

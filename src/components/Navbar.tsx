@@ -16,6 +16,9 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
+import PageDetails from "../pages/PageDetails";
+import useFecthData from "../hooks/useFecthData";
+import { useDataContext } from "../contexts/UseDataContext";
 
 // const StyledInputBase = styled(InputBase)(({ theme }) => ({
 //   color: "inherit",
@@ -42,6 +45,9 @@ export default function Navbar() {
   const isMenuOpen = Boolean(anchorEl);
   const isHumbergerButtonOpen = Boolean(humbergerButton);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const { total } = useDataContext();
+  console.log("total context chart", total);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -181,7 +187,7 @@ export default function Navbar() {
               aria-label="show notif on cart"
               color="inherit"
             >
-              <Badge badgeContent={0} color="error">
+              <Badge badgeContent={total} color="error">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

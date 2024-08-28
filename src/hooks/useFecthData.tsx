@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { AllProductsProps } from "../interfaces";
 import { useNavigate } from "react-router-dom";
+import { useDataContext } from "../contexts/UseDataContext";
 
 const useFecthData = () => {
   const [dataProducts, setDataProducts] = useState<AllProductsProps[]>([]);
-  const [dataElectronics, setDataElectronis] = useState<AllProductsProps[]>([]);
+  const [dataProductInCategories, setDataProductInCategories] = useState<
+    AllProductsProps[]
+  >([]);
   const [dataShoes, setDataShoes] = useState<AllProductsProps[]>([]);
   const [singleDataProduct, setSingleDataProduct] = useState<
     AllProductsProps[]
   >([]);
+  const [itemInCart, setItemInCart] = useState(0);
+  const { addCartTotalContext } = useDataContext();
 
   const navigate = useNavigate();
   const getAllProducts = async () => {
@@ -48,26 +53,66 @@ const useFecthData = () => {
       navigate("/");
     }
   };
+  const addSingleProductToCart = async (id: string | undefined) => {
+    const API_URL = "https://api.escuelajs.co/api/v1";
+    try {
+      const response = await fetch(`${API_URL}/products/${id}`, {
+        method: "GET",
+      });
+      if (!response.ok) {
+        // throw new Error(`Error fetching data: ${response.statusText}`);
+        alert(`Error fetching Single Products: ${response.statusText}`);
+        navigate("/");
+      }
+      const responseData = await response.json();
+      // Retrieve existing cart items from localStorage
+      const existingCartItems = JSON.parse(
+        localStorage.getItem("Carted") || "[]"
+      );
+      // Check if the item already exists in the cart
+      const itemExists = existingCartItems.find(
+        (item: { id: string }) => item.id === id
+      );
 
-  const getElectronicProducts = async () => {
+      if (itemExists) {
+        alert("This item is already in your cart.");
+        return;
+      }
+
+      existingCartItems.push(responseData);
+
+      localStorage.setItem("Carted", JSON.stringify(existingCartItems));
+
+      const itemTotal = existingCartItems.length;
+      setItemInCart(itemTotal);
+      addCartTotalContext();
+      console.log("Hook item Total", itemTotal);
+      return responseData;
+    } catch (error) {
+      alert(`Error fetching data Single Products: ${error}`);
+      navigate("/");
+    }
+  };
+
+  const getProductInCategories = async (id: number) => {
     const API_URL = "https://api.escuelajs.co/api/v1";
     try {
       const response = await fetch(
-        `${API_URL}/categories/2/products?limit=30&offset=1`,
+        `${API_URL}/categories/${id}/products?limit=30&offset=1`,
         {
           method: "GET",
         }
       );
       if (!response.ok) {
         // throw new Error(`Error fetching data: ${response.statusText}`);
-        alert(`Error fetching Electronics: ${response.statusText}`);
+        alert(`Error fetching Product In Categories: ${response.statusText}`);
       }
       const responseData = await response.json();
-      setDataElectronis(responseData);
+      setDataProductInCategories(responseData);
 
       console.log(responseData);
     } catch (error) {
-      alert(`Error fetching Electronics: ${error}`);
+      alert(`Error fetching Product In Categories: ${error}`);
     }
   };
   const getShoesProducts = async () => {
@@ -94,13 +139,15 @@ const useFecthData = () => {
 
   return {
     dataProducts,
-    dataElectronics,
+    dataProductInCategories,
     dataShoes,
     singleDataProduct,
+    itemInCart,
     getSingleProducts,
     getAllProducts,
-    getElectronicProducts,
+    getProductInCategories,
     getShoesProducts,
+    addSingleProductToCart,
   };
 };
 
