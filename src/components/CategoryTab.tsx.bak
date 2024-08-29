@@ -4,7 +4,8 @@
 // import Typography from "@mui/material/Typography";
 // import Box from "@mui/material/Box";
 import * as React from "react";
-// import { useTheme } from "@mui/material/styles";
+import SwipeableViews from "react-swipeable-views";
+import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -45,10 +46,10 @@ function a11yProps(index: number) {
 
 export default function CategoryTab() {
   const [value, setValue] = React.useState(0);
-  // const theme = useTheme();
-  // const handleChangeIndex = (index: number) => {
-  //   setValue(index);
-  // };
+  const theme = useTheme();
+  const handleChangeIndex = (index: number) => {
+    setValue(index);
+  };
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -57,7 +58,6 @@ export default function CategoryTab() {
     <Box sx={{ bgcolor: "background.paper", width: "auto" }}>
       <AppBar position="static" sx={{ mt: "4.2rem" }}>
         <Tabs
-          sx={{ bgcolor: "text.primary" }}
           value={value}
           onChange={handleChange}
           indicatorColor="secondary"
@@ -70,15 +70,21 @@ export default function CategoryTab() {
           <Tab label="Shoes Products" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <CardsAllProducts />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <CardsProductCategories />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <CardsShoesProducts />
-      </TabPanel>
+      <SwipeableViews
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
+        <TabPanel value={value} index={0} dir={theme.direction}>
+          <CardsAllProducts />
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction}>
+          <CardsProductCategories />
+        </TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction}>
+          <CardsShoesProducts />
+        </TabPanel>
+      </SwipeableViews>
     </Box>
   );
 }

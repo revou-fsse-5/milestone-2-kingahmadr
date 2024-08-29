@@ -4,12 +4,25 @@ import useFecthData from "../hooks/useFecthData";
 import tailwindStyles from "../scripts/constans/styles";
 import { LoginValidationForm } from "../modules/ValidationSchema";
 import Navbar from "./Navbar";
+import { useEffect, useState } from "react";
 
 const LoginForm = () => {
+  const [checked, setChecked] = useState<boolean>(false);
+  useEffect(() => {
+    const valueRememberMe = localStorage.getItem("rememberMe");
+    if (valueRememberMe) {
+      setChecked(true);
+    }
+    console.log(checked);
+  }, [checked]);
   const { userLogin } = useFecthData();
 
-  const handleSubmit = (data: UserProps) => {
-    userLogin(data);
+  const handleSubmit = (data: UserProps, isChecked: boolean) => {
+    userLogin(data, isChecked);
+  };
+  const handleCheckBox = () => {
+    setChecked(!checked);
+    console.log("checked", checked);
   };
   const formik = useFormik<UserProps>({
     initialValues: {
@@ -20,9 +33,9 @@ const LoginForm = () => {
     onSubmit: (values, { setSubmitting }) => {
       const { confirmPassword, ...dataToSubmit } = values;
       setTimeout(() => {
-        handleSubmit(dataToSubmit);
+        handleSubmit(dataToSubmit, checked);
         setSubmitting(false);
-        console.log(dataToSubmit);
+        // console.log(dataToSubmit);
       }, 400);
     },
   });
@@ -73,7 +86,17 @@ const LoginForm = () => {
               {formik.errors.password}
             </div>
           ) : null}
-
+          <label htmlFor="checkbox" className="inline-flex items-center">
+            <input
+              id="checkbox"
+              name="checkbox"
+              type="checkbox"
+              checked={checked}
+              className="form-checkbox h-5 w-5 text-indigo-600"
+              onChange={handleCheckBox}
+            />
+            <span className="ml-2 text-gray-700">Remember Me</span>
+          </label>
           <button
             className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             type="submit"

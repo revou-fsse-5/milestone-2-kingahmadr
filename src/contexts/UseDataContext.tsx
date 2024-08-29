@@ -26,12 +26,19 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return !!localStorage.getItem("accessToken");
+    return !!localStorage.getItem("access_token");
   });
   const [total, setTotal] = useState(0);
   const [triggerInContext, setTriggerInContext] = useState(false);
   const [userToken, setUserToken] = useState<userLoginProps>();
-
+  // const [checked, setChecked] = useState<boolean>(false);
+  // useEffect(() => {
+  //   const valueRememberMe = localStorage.getItem("rememberMe");
+  //   if (valueRememberMe) {
+  //     setIsAuthenticated(true);
+  //   }
+  //   console.log(isAuthenticated);
+  // }, [isAuthenticated]);
   const login = () => {
     setIsAuthenticated(true);
   };
@@ -49,8 +56,6 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
     setTotal(itemTotal);
   };
   useEffect(() => addCartTotalContext(), [triggerInContext]);
-
-  const [checked, setChecked] = useState<boolean>(false);
 
   return (
     <DataContext.Provider

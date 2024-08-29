@@ -18,7 +18,7 @@ const useFecthData = () => {
 
   const navigate = useNavigate();
 
-  const userLogin = async (data: UserProps) => {
+  const userLogin = async (data: UserProps, isChecked: boolean) => {
     const API_URL = "https://api.escuelajs.co/api/v1";
     const bodyData = JSON.stringify(data);
 
@@ -37,12 +37,15 @@ const useFecthData = () => {
       const responseData = await response.json();
       handleToken(responseData.access_token);
       console.log(userToken);
+      if (isChecked) {
+        localStorage.setItem("rememberMe", "true");
+      }
       login();
       alert(`Login Success`);
 
-      navigate("/");
       localStorage.setItem("access_token", responseData.access_token);
       console.log(responseData.access_token);
+      navigate("/");
     } catch (error) {
       alert(`Error On Login: ${error}`);
     }

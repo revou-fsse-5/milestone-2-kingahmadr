@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useFecthData from "../hooks/useFecthData";
 
 import Card from "@mui/material/Card";
@@ -8,12 +8,14 @@ import Typography from "@mui/material/Typography";
 import Navbar from "../components/Navbar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { useDataContext } from "../contexts/UseDataContext";
 
 const PageDetails = () => {
   let { productID } = useParams();
+  const navigate = useNavigate();
   const { singleDataProduct, getSingleProducts, addSingleProductToCart } =
     useFecthData();
-
+  const { userToken } = useDataContext();
   useEffect(() => {
     getSingleProducts(productID);
   }, [productID]);
@@ -22,7 +24,14 @@ const PageDetails = () => {
     return <div>Loading...</div>;
   }
   const addToCart = (id?: string | number) => {
-    addSingleProductToCart(id);
+    const accessTokenLocal: any = localStorage.getItem("access_token");
+    if (accessTokenLocal !== userToken) {
+      alert(`You must login first to add product to cart`);
+      console.log(userToken);
+      navigate("/login");
+    } else {
+      addSingleProductToCart(id);
+    }
   };
 
   const renderSingleProduct = Array.isArray(singleDataProduct) ? (
@@ -149,7 +158,7 @@ const PageDetails = () => {
           sx={{ p: 1, m: "1rem" }}
           onClick={() => {
             if (singleDataProduct && singleDataProduct.id) {
-              handleAddToCart(singleDataProduct.id);
+              addToCart(singleDataProduct.id);
             } else {
               console.error("Product ID is not available");
             }
