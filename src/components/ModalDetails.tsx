@@ -33,29 +33,12 @@ const { singleDataProduct, getSingleProducts } = useDataContext();
 const ModalDetails = ({ id, open, onClose }: ModalProps) => {
   useEffect(() => {
     getSingleProducts(id);
-    //   setTimeout(() => {
-    //   }, 400);
   }, []);
-  //   const [open, setOpen] = React.useState(false);
-  //   const handleOpen = () => setOpen(true);
-  //   const handleClose = () => setOpen(false);
+
   if (singleDataProduct !== null && singleDataProduct !== undefined) {
     const renderSingleProducts = singleDataProduct.map((products, index) => {
       <Card sx={{ maxWidth: 345 }} key={index}>
-        <CardHeader
-          //   avatar={
-          //     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-          //       R
-          //     </Avatar>
-          //   }
-          // action={
-          //   <IconButton aria-label="settings">
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
-          title={products.title}
-          subheader={products.description}
-        />
+        <CardHeader title={products.title} subheader={products.description} />
         <CardMedia
           component="img"
           height="194"

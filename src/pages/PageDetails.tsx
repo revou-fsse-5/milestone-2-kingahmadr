@@ -13,16 +13,13 @@ const PageDetails = () => {
   let { productID } = useParams();
   const { singleDataProduct, getSingleProducts, addSingleProductToCart } =
     useFecthData();
-  //   const { itemInCart, handleAddToCart } = useDataContext();
 
   useEffect(() => {
-    // if (productID) {
-    getSingleProducts(productID); // Ensure productID is converted to a number if needed
-    // }
+    getSingleProducts(productID);
   }, [productID]);
   console.log(singleDataProduct);
   if (!singleDataProduct) {
-    return <div>Loading...</div>; // Handle the loading state or when data is not available
+    return <div>Loading...</div>;
   }
   const addToCart = (id?: string | number) => {
     addSingleProductToCart(id);
@@ -166,12 +163,10 @@ const PageDetails = () => {
   );
 
   return (
-    // <DataProvider>
     <div>
       <Navbar />
       {renderSingleProduct}
     </div>
-    // </DataProvider>
   );
 };
 

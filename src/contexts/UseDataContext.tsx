@@ -19,10 +19,6 @@ interface DataContextType {
   handleTrigger: () => void;
   login: () => void;
   handleToken: (access_token: userLoginProps) => void;
-  // handleAddToCart: (id: number) => void;
-  // itemInCart: ProductProp[];
-  //   dataProducts: ArrayString[];
-  //   handlePagination: () => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);

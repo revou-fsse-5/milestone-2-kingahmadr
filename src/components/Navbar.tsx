@@ -44,12 +44,11 @@ export default function Navbar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
-  const isMenuOpen = Boolean(anchorEl);
+  //   const isMenuOpen = Boolean(anchorEl);
   const isHumbergerButtonOpen = Boolean(humbergerButton);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const { total, isAuthenticated } = useDataContext();
-  console.log("total context chart", total);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

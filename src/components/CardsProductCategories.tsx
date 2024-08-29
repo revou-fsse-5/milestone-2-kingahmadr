@@ -34,13 +34,6 @@ export default function CardsProductCategories() {
     to: pageSize,
   });
 
-  // console.log(
-  //   pagination.count,
-  //   pagination.from,
-  //   pagination.to,
-  //   "Data Products: ",
-  //   dataProductInCategories.length
-  // );
   const productsSlice = dataProductInCategories.slice(
     pagination.from,
     pagination.to
@@ -69,20 +62,9 @@ export default function CardsProductCategories() {
     });
   };
 
-  //   const [expanded, setExpanded] = React.useState(false);
-
-  //   const handleExpandClick = () => {
-  //     setExpanded(!expanded);
-  //   };
-
   const renderProducts = productsSlice.map((products, index) => (
     <Card sx={{ maxWidth: 345 }} key={index}>
       <CardHeader
-        //   avatar={
-        //     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-        //       R
-        //     </Avatar>
-        //   }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />

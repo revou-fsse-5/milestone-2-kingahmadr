@@ -17,21 +17,6 @@ import { useEffect, useState } from "react";
 import PaginationRounded from "./PaginationRounded";
 import { useDataContext } from "../contexts/UseDataContext";
 
-// interface ExpandMoreProps extends IconButtonProps {
-//   expand: boolean;
-// }
-
-// const ExpandMore = styled((props: ExpandMoreProps) => {
-//   const { expand, ...other } = props;
-//   return <IconButton {...other} />;
-// })(({ theme, expand }) => ({
-//   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-//   marginLeft: "auto",
-//   transition: theme.transitions.create("transform", {
-//     duration: theme.transitions.duration.shortest,
-//   }),
-// }));
-
 const pageSize = 3;
 export default function CardsShoesProducts() {
   const navigate = useNavigate();
@@ -80,20 +65,9 @@ export default function CardsShoesProducts() {
     });
   };
 
-  //   const [expanded, setExpanded] = React.useState(false);
-
-  //   const handleExpandClick = () => {
-  //     setExpanded(!expanded);
-  //   };
-
   const renderProducts = productsSlice.map((products, index) => (
     <Card sx={{ maxWidth: 345 }} key={index}>
       <CardHeader
-        //   avatar={
-        //     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-        //       R
-        //     </Avatar>
-        //   }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />

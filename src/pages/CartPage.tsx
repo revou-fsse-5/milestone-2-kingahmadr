@@ -32,6 +32,7 @@ const style = {
 
 export default function CartPage() {
   const [value, setValue] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   //   const [trigger, setTrigger] = useState(false);
   const [open, setOpen] = React.useState(false);
   const { triggerInContext, handleTrigger } = useDataContext();
@@ -53,6 +54,15 @@ export default function CartPage() {
     setValue(aggregatedItems);
     console.log(aggregatedItems);
   }, [triggerInContext]);
+
+  useEffect(() => {
+    const totalPriceAggregate = value.reduce((accumulator, product) => {
+      return accumulator + product.price * product.quantity;
+    }, 0);
+    setTotalPrice(totalPriceAggregate);
+
+    console.log("Total Price Aggregate", totalPriceAggregate);
+  }, [value]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -89,7 +99,7 @@ export default function CartPage() {
             m: "2rem",
           }}
         >
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label="spanning table">
             <TableHead>
               <TableRow>
                 <TableCell>Items</TableCell>
@@ -109,7 +119,7 @@ export default function CartPage() {
                   </TableCell>
                   <TableCell align="right">{`$ ${row.price},00`}</TableCell>
                   <TableCell align="right">{row.quantity}</TableCell>
-                  {/* <TableCell align="right">{row.id}</TableCell> */}
+
                   <TableCell align="right">
                     <IconButton
                       color="primary.contrastText"
@@ -121,12 +131,21 @@ export default function CartPage() {
                   </TableCell>
                 </TableRow>
               ))}
+              <TableRow>
+                <TableCell rowSpan={3} />
+                <TableCell colSpan={2}>Total Price</TableCell>
+                <TableCell align="right">{`$ ${totalPrice},00`}</TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
       </div>
       <div className="absolute right-8">
-        <Button variant="contained" onClick={handleOpen}>
+        <Button
+          variant="contained"
+          onClick={handleOpen}
+          sx={{ p: 1, marginBottom: "3rem" }}
+        >
           Checkout
         </Button>
         <Modal

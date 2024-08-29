@@ -23,27 +23,15 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-  //   const { children } = props;
 
   return (
     <div
-      //   className="flex flex-wrap justify-end w-3/6 gap-20"
-      //   role="tabpanel"
-      //   hidden={value !== index}
-      //   id={`vertical-tabpanel-${index}`}
-      //   aria-labelledby={`vertical-tab-${index}`}
-      //   {...other}
       role="tabpanel"
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {/* {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )} */}
       {children}
     </div>
   );
@@ -51,8 +39,6 @@ function TabPanel(props: TabPanelProps) {
 
 function a11yProps(index: number) {
   return {
-    // id: `vertical-tab-${index}`,
-    // "aria-controls": `vertical-tabpanel-${index}`,
     id: `full-width-tab-${index}`,
     "aria-controls": `full-width-tabpanel-${index}`,
   };

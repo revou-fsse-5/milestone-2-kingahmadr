@@ -193,7 +193,6 @@ const useFecthData = () => {
     dataShoes,
     singleDataProduct,
     itemInCart,
-    // userToken,
     userLogin,
     getSingleProducts,
     getAllProducts,
