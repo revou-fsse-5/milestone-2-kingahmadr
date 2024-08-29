@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  :root {
+    --color-primary: rgba(122, 139, 207, 0.8) 0%;
+    --color-secondary: rgba(46, 50, 90, 0.8) 100%;
+  }
+
+  .login-page,
+  .register-page {
+    min-height: 100vh;
+
+    background: linear-gradient(
+        to top left,
+        rgba(122, 139, 207, 0.8) 0%,
+        rgba(46, 50, 90, 0.8) 100%
+      ),
+      url(assets/images/stars.gif);
+  }
+}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AllProductsProps } from "../interfaces";
+import { AllProductsProps, UserProps } from "../interfaces";
 import { useNavigate } from "react-router-dom";
 import { useDataContext } from "../contexts/UseDataContext";
 
@@ -13,9 +13,65 @@ const useFecthData = () => {
     AllProductsProps[]
   >([]);
   const [itemInCart, setItemInCart] = useState(0);
-  const { addCartTotalContext } = useDataContext();
+  const { userToken, handleToken, addCartTotalContext, login } =
+    useDataContext();
 
   const navigate = useNavigate();
+
+  const userLogin = async (data: UserProps) => {
+    const API_URL = "https://api.escuelajs.co/api/v1";
+    const bodyData = JSON.stringify(data);
+
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: bodyData,
+      });
+      if (!response.ok) {
+        alert(`Error On Login: ${response.statusText}`);
+        return;
+      }
+      const responseData = await response.json();
+      handleToken(responseData.access_token);
+      console.log(userToken);
+      login();
+      alert(`Login Success`);
+
+      navigate("/");
+      localStorage.setItem("access_token", responseData.access_token);
+      console.log(responseData.access_token);
+    } catch (error) {
+      alert(`Error On Login: ${error}`);
+    }
+  };
+  const registerUser = async (data: UserProps) => {
+    const API_URL = "https://api.escuelajs.co/api/v1";
+    const bodyData = JSON.stringify(data);
+
+    try {
+      const response = await fetch(`${API_URL}/users/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: bodyData,
+      });
+      if (!response.ok) {
+        alert(`Error Adding new user: ${response.statusText}`);
+        return;
+      }
+      const responseData = await response.json();
+      alert(`Success adding new user`);
+      navigate("/login");
+
+      console.log(responseData);
+    } catch (error) {
+      alert(`Error Adding new user: ${error}`);
+    }
+  };
   const getAllProducts = async () => {
     const API_URL = "https://api.escuelajs.co/api/v1";
     try {
@@ -23,7 +79,6 @@ const useFecthData = () => {
         method: "GET",
       });
       if (!response.ok) {
-        // throw new Error(`Error fetching data: ${response.statusText}`);
         alert(`Error fetching Products: ${response.statusText}`);
       }
       const responseData = await response.json();
@@ -41,13 +96,11 @@ const useFecthData = () => {
         method: "GET",
       });
       if (!response.ok) {
-        // throw new Error(`Error fetching data: ${response.statusText}`);
         alert(`Error fetching Single Products: ${response.statusText}`);
         navigate("/");
       }
       const responseData = await response.json();
       setSingleDataProduct([responseData]);
-      // console.log(responseData);
     } catch (error) {
       alert(`Error fetching data Single Products: ${error}`);
       navigate("/");
@@ -60,12 +113,11 @@ const useFecthData = () => {
         method: "GET",
       });
       if (!response.ok) {
-        // throw new Error(`Error fetching data: ${response.statusText}`);
         alert(`Error fetching Single Products: ${response.statusText}`);
         navigate("/");
       }
       const responseData = await response.json();
-      // Retrieve existing cart items from localStorage
+
       const existingCartItems = JSON.parse(
         localStorage.getItem("Carted") || "[]"
       );
@@ -104,7 +156,6 @@ const useFecthData = () => {
         }
       );
       if (!response.ok) {
-        // throw new Error(`Error fetching data: ${response.statusText}`);
         alert(`Error fetching Product In Categories: ${response.statusText}`);
       }
       const responseData = await response.json();
@@ -125,7 +176,6 @@ const useFecthData = () => {
         }
       );
       if (!response.ok) {
-        // throw new Error(`Error fetching data: ${response.statusText}`);
         alert(`Error fetching Books: ${response.statusText}`);
       }
       const responseData = await response.json();
@@ -143,70 +193,15 @@ const useFecthData = () => {
     dataShoes,
     singleDataProduct,
     itemInCart,
+    // userToken,
+    userLogin,
     getSingleProducts,
     getAllProducts,
     getProductInCategories,
     getShoesProducts,
     addSingleProductToCart,
+    registerUser,
   };
 };
 
 export default useFecthData;
-// import { AllProductsProps } from "../interfaces";
-
-// // Fetch all products
-// export const getAllProducts = async (): Promise<AllProductsProps[]> => {
-//   const API_URL = "https://api.escuelajs.co/api/v1";
-//   try {
-//     const response = await fetch(`${API_URL}/products?limit=30&offset=1`, {
-//       method: "GET",
-//     });
-//     if (!response.ok) {
-//       throw new Error(`Error fetching Products: ${response.statusText}`);
-//     }
-//     const responseData: AllProductsProps[] = await response.json();
-//     return responseData;
-//   } catch (error) {
-//     throw new Error(`Error fetching Products: ${error}`);
-//   }
-// };
-
-// // Fetch electronic products
-// export const getElectronicProducts = async (): Promise<AllProductsProps[]> => {
-//   const API_URL = "https://api.escuelajs.co/api/v1";
-//   try {
-//     const response = await fetch(
-//       `${API_URL}/categories/2/products?limit=30&offset=1`,
-//       {
-//         method: "GET",
-//       }
-//     );
-//     if (!response.ok) {
-//       throw new Error(`Error fetching Electronics: ${response.statusText}`);
-//     }
-//     const responseData: AllProductsProps[] = await response.json();
-//     return responseData;
-//   } catch (error) {
-//     throw new Error(`Error fetching Electronics: ${error}`);
-//   }
-// };
-
-// // Fetch shoes products
-// export const getShoesProducts = async (): Promise<AllProductsProps[]> => {
-//   const API_URL = "https://api.escuelajs.co/api/v1";
-//   try {
-//     const response = await fetch(
-//       `${API_URL}/categories/4/products?limit=30&offset=1`,
-//       {
-//         method: "GET",
-//       }
-//     );
-//     if (!response.ok) {
-//       throw new Error(`Error fetching Shoes: ${response.statusText}`);
-//     }
-//     const responseData: AllProductsProps[] = await response.json();
-//     return responseData;
-//   } catch (error) {
-//     throw new Error(`Error fetching Shoes: ${error}`);
-//   }
-// };

@@ -9,7 +9,6 @@ import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import CardsAllProducts from "./CardsAllProducts";
 import CardsShoesProducts from "./CardsShoesProducts";
@@ -71,7 +70,7 @@ export default function CategoryTab() {
 
   return (
     <Box sx={{ bgcolor: "background.paper", width: "auto" }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ mt: "4.2rem" }}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -81,7 +80,7 @@ export default function CategoryTab() {
           aria-label="full width tabs example"
         >
           <Tab label="All Products" {...a11yProps(0)} />
-          <Tab label="Electornics Products" {...a11yProps(1)} />
+          <Tab label="Miscellanous" {...a11yProps(1)} />
           <Tab label="Shoes Products" {...a11yProps(2)} />
         </Tabs>
       </AppBar>

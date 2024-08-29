@@ -9,3 +9,13 @@ export interface AllProductsProps {
   category?: string;
   images?: string[];
 }
+
+export interface UserProps {
+  id?: number;
+  name?: string;
+  role?: string;
+  email: string;
+  password: string;
+  avatar?: string;
+  confirmPassword?: string;
+}

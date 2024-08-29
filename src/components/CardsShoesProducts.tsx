@@ -10,11 +10,12 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import useFecthData from "../hooks/useFecthData";
 import { useEffect, useState } from "react";
 import PaginationRounded from "./PaginationRounded";
+import { useDataContext } from "../contexts/UseDataContext";
 
 // interface ExpandMoreProps extends IconButtonProps {
 //   expand: boolean;
@@ -33,7 +34,10 @@ import PaginationRounded from "./PaginationRounded";
 
 const pageSize = 3;
 export default function CardsShoesProducts() {
-  const { dataShoes, getShoesProducts } = useFecthData();
+  const navigate = useNavigate();
+  const { dataShoes, getShoesProducts, addSingleProductToCart } =
+    useFecthData();
+  const { userToken } = useDataContext();
 
   useEffect(() => {
     getShoesProducts();
@@ -52,7 +56,16 @@ export default function CardsShoesProducts() {
     dataShoes.length
   );
   const productsSlice = dataShoes.slice(pagination.from, pagination.to);
-
+  const addToCart = (id?: string | number) => {
+    const accessTokenLocal: any = localStorage.getItem("access_token");
+    if (accessTokenLocal !== userToken) {
+      alert(`You must login first to add product to cart`);
+      console.log(userToken);
+      navigate("/login");
+    } else {
+      addSingleProductToCart(id);
+    }
+  };
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     page: number
@@ -93,10 +106,14 @@ export default function CardsShoesProducts() {
         component="img"
         height="194"
         image={products.images[0]}
-        alt="Paella dish"
+        alt="Gak onok Gambar e slur"
       />
       <CardActions disableSpacing>
-        <IconButton color="primary" aria-label="add to shopping cart">
+        <IconButton
+          onClick={() => addToCart(products.id)}
+          color="primary"
+          aria-label="add to shopping cart"
+        >
           <AddShoppingCartIcon />
         </IconButton>
         <Button variant="contained">

@@ -10,16 +10,33 @@ import Navbar from "../components/Navbar";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 // import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useEffect, useState } from "react";
 import { useDataContext } from "../contexts/UseDataContext";
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 export default function CartPage() {
   const [value, setValue] = useState([]);
-  //   const { storage, getValue } = useLocalStorage();
-  const [trigger, setTrigger] = useState(false);
-  const { handleTrigger } = useDataContext();
+  //   const [trigger, setTrigger] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const { triggerInContext, handleTrigger } = useDataContext();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const storeData = localStorage.getItem("Carted");
     const itemArray = storeData ? JSON.parse(storeData) : [];
@@ -33,18 +50,17 @@ export default function CartPage() {
       }
       return acc;
     }, []);
-
     setValue(aggregatedItems);
     console.log(aggregatedItems);
-  }, [trigger]);
-  //   const handleRemoveFromCart = () => {
-  //     const storeData = localStorage.getItem("Carted");
-  //     const itemArray = storeData ? JSON.parse(storeData) : [];
-  //     const filteredItems = itemArray.filter((i) => i.id === itemArray.id);
+  }, [triggerInContext]);
 
-  //     filteredItems.remove();
-  //     console.log("item array local storage", itemArray);
-  //   };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const returnHome = () => {
+    localStorage.removeItem("Carted");
+    handleTrigger();
+    navigate("/");
+  };
   const handleRemoveFromCart = (idToRemove) => {
     const storeData = localStorage.getItem("Carted");
     const itemArray = storeData ? JSON.parse(storeData) : [];
@@ -53,7 +69,7 @@ export default function CartPage() {
     const filteredItems = itemArray.filter((i) => i.id !== idToRemove);
 
     // Update localStorage with the filtered array
-    setTrigger(!trigger);
+    // setTrigger(!trigger);
     handleTrigger();
     localStorage.setItem("Carted", JSON.stringify(filteredItems));
 
@@ -63,7 +79,7 @@ export default function CartPage() {
   return (
     <>
       <Navbar />
-      <div className="mx-auto">
+      <div className="mx-auto mt-24">
         <TableContainer
           component={Paper}
           sx={{
@@ -110,9 +126,32 @@ export default function CartPage() {
         </TableContainer>
       </div>
       <div className="absolute right-8">
-        <Button variant="contained" onClick={() => getLocalItemToArray()}>
+        <Button variant="contained" onClick={handleOpen}>
           Checkout
         </Button>
+        <Modal
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="keep-mounted-modal-title"
+          aria-describedby="keep-mounted-modal-description"
+        >
+          <Box sx={style}>
+            <Typography
+              id="keep-mounted-modal-description"
+              variant="body1"
+              sx={{ mt: 2, fontSize: "1rem", fontWeight: "medium" }}
+            >
+              Your Order was successful! Check your email for the order
+              confirmation. Thank you for shopping with Mad Store!
+            </Typography>
+            <div className="mt-3">
+              <Button variant="contained" onClick={returnHome}>
+                Return Home
+              </Button>
+            </div>
+          </Box>
+        </Modal>
       </div>
     </>
   );

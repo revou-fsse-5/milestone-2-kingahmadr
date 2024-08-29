@@ -15,9 +15,11 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 import { useNavigate } from "react-router-dom";
-// import PageDetails from "../pages/PageDetails";
-// import useFecthData from "../hooks/useFecthData";
+
 import { useDataContext } from "../contexts/UseDataContext";
 
 // const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -46,7 +48,7 @@ export default function Navbar() {
   const isHumbergerButtonOpen = Boolean(humbergerButton);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const { total } = useDataContext();
+  const { total, isAuthenticated } = useDataContext();
   console.log("total context chart", total);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -64,6 +66,11 @@ export default function Navbar() {
     setHumbergetButton(null);
     setAnchorEl(null);
     handleMobileMenuClose();
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate(0);
   };
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -142,7 +149,7 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             size="large"
@@ -165,46 +172,56 @@ export default function Navbar() {
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show notif on cart"
-              color="inherit"
-              onClick={() => {
-                navigate("/checkout");
-              }}
-            >
-              <Badge badgeContent={total} color="error">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {!isAuthenticated ? (
+              <>
+                <IconButton
+                  onClick={() => navigate("/register")}
+                  size="large"
+                  color="inherit"
+                >
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    sx={{ display: { xs: "none", sm: "block" } }}
+                  >
+                    Register
+                  </Typography>
+                </IconButton>
+                <IconButton
+                  onClick={() => navigate("/login")}
+                  size="large"
+                  color="inherit"
+                >
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    sx={{ display: { xs: "none", sm: "block" } }}
+                  >
+                    Login
+                  </Typography>
+                </IconButton>
+              </>
+            ) : (
+              <>
+                <IconButton
+                  size="large"
+                  aria-label="show notif on cart"
+                  color="inherit"
+                  onClick={() => {
+                    navigate("/checkout");
+                  }}
+                >
+                  <Badge badgeContent={total} color="error">
+                    <ShoppingCartIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton onClick={handleLogout} size="large" color="inherit">
+                  <LogoutIcon />
+                </IconButton>
+              </>
+            )}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton

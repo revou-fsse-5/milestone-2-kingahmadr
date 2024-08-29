@@ -11,28 +11,20 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Button from "@mui/material/Button";
 // import Box from "@mui/material/Box";
 // import Modal from "@mui/material/Modal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import useFecthData from "../hooks/useFecthData";
 import { useEffect, useState } from "react";
 import PaginationRounded from "./PaginationRounded";
+import { useDataContext } from "../contexts/UseDataContext";
 
 const pageSize = 3;
-// const style = {
-//   position: "absolute" as "absolute",
-//   top: "50%",
-//   left: "50%",
-//   transform: "translate(-50%, -50%)",
-//   width: 400,
-//   bgcolor: "background.paper",
-//   border: "2px solid #000",
-//   boxShadow: 24,
-//   p: 4,
-// };
 
 export default function CardsAllProducts() {
+  const navigate = useNavigate();
   const { dataProducts, getAllProducts, addSingleProductToCart } =
     useFecthData();
+  const { userToken } = useDataContext();
   useEffect(() => {
     getAllProducts();
   }, []);
@@ -41,15 +33,18 @@ export default function CardsAllProducts() {
     from: 0,
     to: pageSize,
   });
-  // const [open, setOpen] = useState(false);
-  // const handleOpen = (id: number) => {
-  //   setOpen(true);
-  // };
 
-  // const handleClose = () => setOpen(false);
   const addToCart = (id?: string | number) => {
-    addSingleProductToCart(id);
+    const accessTokenLocal: any = localStorage.getItem("access_token");
+    if (accessTokenLocal !== userToken) {
+      alert(`You must login first to add product to cart`);
+      console.log(userToken);
+      navigate("/login");
+    } else {
+      addSingleProductToCart(id);
+    }
   };
+
   console.log(pagination.count, pagination.from, pagination.to);
   const productsSlice = dataProducts.slice(pagination.from, pagination.to);
 

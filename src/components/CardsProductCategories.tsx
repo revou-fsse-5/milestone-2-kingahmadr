@@ -9,31 +9,22 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import useFecthData from "../hooks/useFecthData";
+import { useDataContext } from "../contexts/UseDataContext";
 import { useEffect, useState } from "react";
 import PaginationRounded from "./PaginationRounded";
 
-// interface ExpandMoreProps extends IconButtonProps {
-//   expand: boolean;
-// }
-
-// const ExpandMore = styled((props: ExpandMoreProps) => {
-//   const { expand, ...other } = props;
-//   return <IconButton {...other} />;
-// })(({ theme, expand }) => ({
-//   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-//   marginLeft: "auto",
-//   transition: theme.transitions.create("transform", {
-//     duration: theme.transitions.duration.shortest,
-//   }),
-// }));
-
 const pageSize = 3;
 export default function CardsProductCategories() {
-  const { dataProductInCategories, getProductInCategories } = useFecthData();
-
+  const navigate = useNavigate();
+  const {
+    dataProductInCategories,
+    getProductInCategories,
+    addSingleProductToCart,
+  } = useFecthData();
+  const { userToken } = useDataContext();
   useEffect(() => {
     getProductInCategories(5);
   }, []);
@@ -54,7 +45,16 @@ export default function CardsProductCategories() {
     pagination.from,
     pagination.to
   );
-
+  const addToCart = (id?: string | number) => {
+    const accessTokenLocal: any = localStorage.getItem("access_token");
+    if (accessTokenLocal !== userToken) {
+      alert(`You must login first to add product to cart`);
+      console.log(userToken);
+      navigate("/login");
+    } else {
+      addSingleProductToCart(id);
+    }
+  };
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     page: number
@@ -95,10 +95,14 @@ export default function CardsProductCategories() {
         component="img"
         height="194"
         image={products.images[0]}
-        alt="Paella dish"
+        alt="Gaonok gambar e slur"
       />
       <CardActions disableSpacing>
-        <IconButton color="primary" aria-label="add to shopping cart">
+        <IconButton
+          onClick={() => addToCart(products.id)}
+          color="primary"
+          aria-label="add to shopping cart"
+        >
           <AddShoppingCartIcon />
         </IconButton>
         <Button variant="contained">

@@ -5,28 +5,20 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import useFecthData from "../hooks/useFecthData";
 
-interface ArrayString {
-  [key: string]: string | string[];
-}
-
-interface ProductProp {
-  isAuthenticated: boolean;
-  id?: number;
-  title?: string;
-  price?: number;
-  description?: string;
-  category?: string;
-  images?: string[];
+interface userLoginProps {
+  access_token: string;
 }
 
 interface DataContextType {
   isAuthenticated?: boolean;
   triggerInContext: boolean;
+  userToken?: userLoginProps;
   total: number;
   addCartTotalContext: () => void;
   handleTrigger: () => void;
+  login: () => void;
+  handleToken: (access_token: userLoginProps) => void;
   // handleAddToCart: (id: number) => void;
   // itemInCart: ProductProp[];
   //   dataProducts: ArrayString[];
@@ -42,7 +34,14 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   });
   const [total, setTotal] = useState(0);
   const [triggerInContext, setTriggerInContext] = useState(false);
+  const [userToken, setUserToken] = useState<userLoginProps>();
 
+  const login = () => {
+    setIsAuthenticated(true);
+  };
+  const handleToken = (access_token: userLoginProps) => {
+    setUserToken(access_token);
+  };
   const handleTrigger = () => {
     setTriggerInContext(!triggerInContext);
   };
@@ -56,7 +55,6 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => addCartTotalContext(), [triggerInContext]);
 
   const [checked, setChecked] = useState<boolean>(false);
-  // const { userLoginData } = useFetchData();
 
   return (
     <DataContext.Provider
@@ -64,6 +62,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
         isAuthenticated,
         triggerInContext,
         total,
+        userToken,
+        handleToken,
+        login,
         addCartTotalContext,
         handleTrigger,
       }}
