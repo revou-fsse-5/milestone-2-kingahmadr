@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useFecthData from "../hooks/useFecthData";
 
@@ -47,6 +47,7 @@ const PageDetails = () => {
           m: "2rem",
           maxWidth: "md",
           mx: "auto",
+          mt: "10rem",
         }}
       >
         <Card
@@ -112,6 +113,7 @@ const PageDetails = () => {
         m: "2rem",
         maxWidth: "md",
         mx: "auto",
+        mt: "10rem",
       }}
     >
       <Card
