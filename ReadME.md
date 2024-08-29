@@ -1,50 +1,71 @@
-# React + TypeScript + Vite
+# Mamad Mini Store Project Milestone 2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Overview
 
-Currently, two official plugins are available:
+This project is a simple store application that interacts with a backend API provided by [Platzi's Fake API](https://fakeapi.platzi.com/). The application fetches products from all categories, with a particular focus on the "Miscellaneous" and "Shoes" categories. Users can browse through these products, view detailed information, add items to their cart, and proceed to checkout. The app also includes essential features such as user authentication (login, register, logout), and displays the total price of the items in the cart.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Features
 
-## Expanding the ESLint configuration
+- Vite: A fast development build tool that enhances the development experience with instant server start and fast Hot Module Replacement (HMR).
+- User Authentication: Users can create an account, log in, and log out securely.
+- Product Listing: View all products across different categories, with special categories for "Miscellaneous" and "Shoes".
+- Product Details: Click on a product to view detailed information, including price and description.
+- Add to Cart: Add products to the shopping cart for purchase.
+- Checkout: Proceed to checkout with the items in the cart, and view the total price of the selected products.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Tech Stack
 
-- Configure the top-level `parserOptions` property like this:
+The application is built using the following technologies:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Vite: A development tool that provides fast, modern build processes.
+- Tailwind CSS: For styling the components and ensuring a responsive design.
+- React: A JavaScript library for building user interfaces, used to create dynamic and interactive components.
+- MUI Material: A library of React UI components that implements Google's Material Design.
+- TypeScript: A statically typed language that builds on JavaScript, providing better tooling and more robust code.
+
+### Installation
+
+To set up the project locally, follow these steps:
+
+1. Clone the repository:
+
+```
+git clone
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Install dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```
+npm install
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+3. Run the application:
+
+```
+npm run dev
+```
+
+4. Open your browser and navigate to:
+
+```
+http://localhost:5173/
+```
+
+### Usage
+
+- Register or Log In to start using the app.
+- Browse products by category to find specific items.
+- Add items to your cart and view the cart to see all added products.
+- The checkout process will show you a pop up and clear the products in cart then navigate the user to the Home page.
+
+### Showcase
+
+### Contributing and Development
+
+Clone the repository and checkout with a new branch for development or fork the project to your repository
+
+### Enjoy shopping with the Mad Store App!
+
+```
+
 ```
