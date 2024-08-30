@@ -10,9 +10,9 @@ import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+// import AccountCircle from "@mui/icons-material/AccountCircle";
+// import MailIcon from "@mui/icons-material/Mail";
+// import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
@@ -39,7 +39,7 @@ import { useDataContext } from "../contexts/UseDataContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [humbergerButton, setHumbergetButton] =
     React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -51,9 +51,9 @@ export default function Navbar() {
 
   const { total, isAuthenticated } = useDataContext();
 
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
   const handleHumbergerButton = (event: React.MouseEvent<HTMLElement>) => {
     setHumbergetButton(event.currentTarget);
   };
@@ -64,7 +64,7 @@ export default function Navbar() {
 
   const handleMenuClose = () => {
     setHumbergetButton(null);
-    setAnchorEl(null);
+    // setAnchorEl(null);
     handleMobileMenuClose();
   };
 

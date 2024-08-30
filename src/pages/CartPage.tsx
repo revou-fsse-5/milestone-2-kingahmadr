@@ -29,9 +29,15 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
+interface valueProps {
+  price: number;
+  quantity: number;
+  title: string;
+  id: number;
+  // other properties...
+}
 export default function CartPage() {
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState<valueProps[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   //   const [trigger, setTrigger] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -42,8 +48,8 @@ export default function CartPage() {
     const storeData = localStorage.getItem("Carted");
     const itemArray = storeData ? JSON.parse(storeData) : [];
 
-    const aggregatedItems = itemArray.reduce((acc, item) => {
-      const existingItem = acc.find((i) => i.title === item.title);
+    const aggregatedItems = itemArray.reduce((acc: any, item: any) => {
+      const existingItem = acc.find((i: any) => i.title === item.title);
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
@@ -71,12 +77,12 @@ export default function CartPage() {
     handleTrigger();
     navigate("/");
   };
-  const handleRemoveFromCart = (idToRemove) => {
+  const handleRemoveFromCart = (idToRemove: number) => {
     const storeData = localStorage.getItem("Carted");
     const itemArray = storeData ? JSON.parse(storeData) : [];
 
     // Filter out the item with the given id
-    const filteredItems = itemArray.filter((i) => i.id !== idToRemove);
+    const filteredItems = itemArray.filter((i: any) => i.id !== idToRemove);
 
     // Update localStorage with the filtered array
     // setTrigger(!trigger);
@@ -122,7 +128,7 @@ export default function CartPage() {
 
                   <TableCell align="right">
                     <IconButton
-                      color="primary.contrastText"
+                      // color="primary.contrastText"
                       aria-label="add to shopping cart"
                       onClick={() => handleRemoveFromCart(row.id)}
                     >

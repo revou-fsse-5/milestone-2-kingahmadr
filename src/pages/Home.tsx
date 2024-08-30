@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import CategoryTab from "../components/CategoryTab";
 import Navbar from "../components/Navbar";
 const HomePage = () => {

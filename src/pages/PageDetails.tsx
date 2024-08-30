@@ -9,6 +9,13 @@ import Navbar from "../components/Navbar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useDataContext } from "../contexts/UseDataContext";
+import { AllProductsProps } from "../interfaces";
+
+interface SingleProductProps extends AllProductsProps {
+  images: string[];
+  title: string;
+  // other properties...
+}
 
 const PageDetails = () => {
   let { productID } = useParams();
@@ -56,7 +63,9 @@ const PageDetails = () => {
           <CardMedia
             component="img"
             height="auto"
-            image={product.images[0]}
+            image={
+              product.images?.[0] ? product.images[0] : "fallback-image-url"
+            }
             alt="Product image"
           />
         </Card>
@@ -122,7 +131,7 @@ const PageDetails = () => {
         <CardMedia
           component="img"
           height="auto"
-          image={singleDataProduct.images[0]}
+          image={(singleDataProduct as SingleProductProps).images[0]}
           alt="Product image"
         />
       </Card>
@@ -137,13 +146,13 @@ const PageDetails = () => {
             fontWeight: "bold",
           }}
         >
-          {singleDataProduct.title}
+          {(singleDataProduct as SingleProductProps).title}
         </Typography>
         <Typography
           variant="body2"
           sx={{ color: "text.secondary", fontSize: 20, m: "1.5rem" }}
         >
-          {singleDataProduct.description}
+          {(singleDataProduct as SingleProductProps).description}
         </Typography>
         <Typography
           variant="body2"
@@ -154,13 +163,16 @@ const PageDetails = () => {
             fontWeight: "bold",
           }}
         >
-          {`Price: $${singleDataProduct.price},00`}
+          {`Price: $${(singleDataProduct as SingleProductProps).price},00`}
         </Typography>
         <Button
           sx={{ p: 1, m: "1rem" }}
           onClick={() => {
-            if (singleDataProduct && singleDataProduct.id) {
-              addToCart(singleDataProduct.id);
+            if (
+              (singleDataProduct as SingleProductProps) &&
+              (singleDataProduct as SingleProductProps).id
+            ) {
+              addToCart((singleDataProduct as SingleProductProps).id);
             } else {
               console.error("Product ID is not available");
             }

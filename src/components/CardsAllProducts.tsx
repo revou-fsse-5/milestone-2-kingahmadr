@@ -49,7 +49,7 @@ export default function CardsAllProducts() {
   const productsSlice = dataProducts.slice(pagination.from, pagination.to);
 
   const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
+    _event: React.ChangeEvent<unknown>,
     page: number
   ) => {
     const from = (page - 1) * pageSize;
@@ -79,7 +79,9 @@ export default function CardsAllProducts() {
             <CardMedia
               component="img"
               height="194"
-              image={products.images[0]}
+              image={
+                products.images?.[0] ? products.images[0] : "fallback-image-url"
+              }
               alt="Gaonok gambar e slurr"
             />
 

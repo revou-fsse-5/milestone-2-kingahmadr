@@ -109,7 +109,7 @@ const useFecthData = () => {
       navigate("/");
     }
   };
-  const addSingleProductToCart = async (id: string | undefined) => {
+  const addSingleProductToCart = async (id: string | undefined | number) => {
     const API_URL = "https://api.escuelajs.co/api/v1";
     try {
       const response = await fetch(`${API_URL}/products/${id}`, {
