@@ -18,8 +18,9 @@ const useFecthData = () => {
 
   const navigate = useNavigate();
 
+  // const API_URL = "https://api.escuelajs.co/api/v1";
+  const API_URL = "https://fakestoreapi.com";
   const userLogin = async (data: UserProps, isChecked: boolean) => {
-    const API_URL = "https://api.escuelajs.co/api/v1";
     const bodyData = JSON.stringify(data);
 
     try {
@@ -51,7 +52,6 @@ const useFecthData = () => {
     }
   };
   const registerUser = async (data: UserProps) => {
-    const API_URL = "https://api.escuelajs.co/api/v1";
     const bodyData = JSON.stringify(data);
 
     try {
@@ -76,9 +76,8 @@ const useFecthData = () => {
     }
   };
   const getAllProducts = async () => {
-    const API_URL = "https://api.escuelajs.co/api/v1";
     try {
-      const response = await fetch(`${API_URL}/products?limit=30&offset=1`, {
+      const response = await fetch(`${API_URL}/products?limit=30`, {
         method: "GET",
       });
       if (!response.ok) {
@@ -93,7 +92,6 @@ const useFecthData = () => {
     }
   };
   const getSingleProducts = async (id: string | undefined) => {
-    const API_URL = "https://api.escuelajs.co/api/v1";
     try {
       const response = await fetch(`${API_URL}/products/${id}`, {
         method: "GET",
@@ -110,7 +108,6 @@ const useFecthData = () => {
     }
   };
   const addSingleProductToCart = async (id: string | undefined | number) => {
-    const API_URL = "https://api.escuelajs.co/api/v1";
     try {
       const response = await fetch(`${API_URL}/products/${id}`, {
         method: "GET",
@@ -150,7 +147,6 @@ const useFecthData = () => {
   };
 
   const getProductInCategories = async (id: number) => {
-    const API_URL = "https://api.escuelajs.co/api/v1";
     try {
       const response = await fetch(
         `${API_URL}/categories/${id}/products?limit=30&offset=1`,
@@ -170,7 +166,6 @@ const useFecthData = () => {
     }
   };
   const getShoesProducts = async () => {
-    const API_URL = "https://api.escuelajs.co/api/v1";
     try {
       const response = await fetch(
         `${API_URL}/categories/4/products?limit=30&offset=1`,

@@ -2,6 +2,7 @@
 //   [key: string]: string | string[] | number | number[];
 // }
 export interface AllProductsProps {
+  image: string | undefined;
   id?: number;
   title?: string;
   price?: number;

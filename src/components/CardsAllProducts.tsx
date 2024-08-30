@@ -85,10 +85,11 @@ export default function CardsAllProducts() {
             />
             <CardMedia
               component="img"
-              height="194"
-              image={
-                products.images?.[0] ? products.images[0] : "fallback-image-url"
-              }
+              height="2rem"
+              // image={
+              //   products.images?.[0] ? products.images[0] : "fallback-image-url"
+              // }
+              image={products.image}
               alt="Gaonok gambar e slurr"
             />
 
