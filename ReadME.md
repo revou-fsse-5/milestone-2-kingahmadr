@@ -58,7 +58,28 @@ http://localhost:5173/
 - Add items to your cart and view the cart to see all added products.
 - The checkout process will show you a pop up and clear the products in cart then navigate the user to the Home page.
 
-### Showcase
+### Showcases
+
+All Products and Categories
+![All Products and Categories](./ReadME-Image/2024-08-30_11-16.png)
+
+Register and Login Form
+![Register Form](./ReadME-Image/2024-08-30_11-19.png)
+
+![Login Form](./ReadME-Image/2024-08-30_11-19_1.png)
+
+Cart Page
+![Cart Page](./ReadME-Image/2024-08-30_11-21.png)
+
+Product Detail Page
+![Product Detail Page](./ReadME-Image/2024-08-30_11-23.png)
+
+Checkout Modal
+![Checkout Modal](./ReadME-Image/2024-08-30_11-24.png)
+
+## Deployment Link
+
+[https://milestone-2-kingahmadr.vercel.app/](https://milestone-2-kingahmadr.vercel.app/)
 
 ### Contributing and Development
 
