@@ -17,6 +17,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
 import { useNavigate } from "react-router-dom";
 
@@ -112,37 +113,54 @@ export default function Navbar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      {!isAuthenticated ? (
+        <div>
+          <MenuItem>
+            <IconButton
+              onClick={() => navigate("/login")}
+              size="large"
+              color="inherit"
+            >
+              <LoginIcon />
+            </IconButton>
+            <p>Login</p>
+          </MenuItem>
+          <MenuItem>
+            <IconButton
+              onClick={() => navigate("/register")}
+              size="large"
+              color="inherit"
+            >
+              <PersonAddAltIcon />
+            </IconButton>
+            <p>Register</p>
+          </MenuItem>
+        </div>
+      ) : (
+        <div>
+          <MenuItem>
+            <IconButton
+              size="large"
+              aria-label="show notif on cart"
+              color="inherit"
+              onClick={() => {
+                navigate("/checkout");
+              }}
+            >
+              <Badge badgeContent={total} color="error">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+            <p>Shopping Cart</p>
+          </MenuItem>
+          <MenuItem>
+            <IconButton onClick={handleLogout} size="large" color="inherit">
+              <LogoutIcon />
+            </IconButton>
+            <p>Logout</p>
+          </MenuItem>
+        </div>
+      )}
     </Menu>
   );
 
@@ -166,7 +184,7 @@ export default function Navbar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            Navbar
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
@@ -177,30 +195,28 @@ export default function Navbar() {
                   onClick={() => navigate("/register")}
                   size="large"
                   color="inherit"
+                ></IconButton>
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component="div"
+                  sx={{ display: { xs: "none", sm: "block" } }}
                 >
-                  <Typography
-                    variant="h6"
-                    noWrap
-                    component="div"
-                    sx={{ display: { xs: "none", sm: "block" } }}
-                  >
-                    Register
-                  </Typography>
-                </IconButton>
+                  Register
+                </Typography>
                 <IconButton
                   onClick={() => navigate("/login")}
                   size="large"
                   color="inherit"
+                ></IconButton>
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component="div"
+                  sx={{ display: { xs: "none", sm: "block" } }}
                 >
-                  <Typography
-                    variant="h6"
-                    noWrap
-                    component="div"
-                    sx={{ display: { xs: "none", sm: "block" } }}
-                  >
-                    Login
-                  </Typography>
-                </IconButton>
+                  Login
+                </Typography>
               </>
             ) : (
               <>
