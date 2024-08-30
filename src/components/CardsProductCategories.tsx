@@ -39,13 +39,20 @@ export default function CardsProductCategories() {
     pagination.to
   );
   const addToCart = (id?: string | number) => {
-    const accessTokenLocal: any = localStorage.getItem("access_token");
-    if (accessTokenLocal !== userToken) {
-      alert(`You must login first to add product to cart`);
-      console.log(userToken);
-      navigate("/login");
-    } else {
+    const accessTokenLocal: unknown = localStorage.getItem("access_token");
+    const rememberMe: string | null = localStorage.getItem("rememberMe");
+
+    if (rememberMe === "true") {
+      console.log("remember me", rememberMe);
       addSingleProductToCart(id);
+    } else {
+      if (accessTokenLocal !== userToken) {
+        alert(`You must login first to add product to cart`);
+        console.log(userToken);
+        navigate("/login");
+      } else {
+        addSingleProductToCart(id);
+      }
     }
   };
   const handlePageChange = (
