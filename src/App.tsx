@@ -3,9 +3,9 @@
 // import viteLogo from '/vite.svg'
 // import './App.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PageDetails from "./pages/PageDetails";
-import CategoryTab from "./components/CategoryTab";
+// import CategoryTab from "./components/CategoryTab";
 import { DataProvider } from "./contexts/UseDataContext";
 import HomePage from "./pages/Home";
 import CartPage from "./pages/CartPage";
