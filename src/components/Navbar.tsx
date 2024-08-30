@@ -195,28 +195,30 @@ export default function Navbar() {
                   onClick={() => navigate("/register")}
                   size="large"
                   color="inherit"
-                ></IconButton>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component="div"
-                  sx={{ display: { xs: "none", sm: "block" } }}
                 >
-                  Register
-                </Typography>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    sx={{ display: { xs: "none", sm: "block" } }}
+                  >
+                    Register
+                  </Typography>
+                </IconButton>
                 <IconButton
                   onClick={() => navigate("/login")}
                   size="large"
                   color="inherit"
-                ></IconButton>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component="div"
-                  sx={{ display: { xs: "none", sm: "block" } }}
                 >
-                  Login
-                </Typography>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    sx={{ display: { xs: "none", sm: "block" } }}
+                  >
+                    Login
+                  </Typography>
+                </IconButton>
               </>
             ) : (
               <>
