@@ -1,4 +1,5 @@
 import * as React from "react";
+// import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 // import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -11,23 +12,36 @@ import Typography from "@mui/material/Typography";
 import { Link, useNavigate } from "react-router-dom";
 
 import useFecthData from "../hooks/useFecthData";
-import { useDataContext } from "../contexts/UseDataContext";
 import { useEffect, useState } from "react";
 import PaginationRounded from "./PaginationRounded";
+import { useDataContext } from "../contexts/UseDataContext";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 const pageSize = 3;
-export default function CardsProductCategories() {
+
+const theme = createTheme({
+  components: {
+    // Name of the component
+    MuiCardHeader: {
+      styleOverrides: {
+        // Name of the slot
+        subheader: {
+          // Some CSS
+          color: "white",
+        },
+      },
+    },
+  },
+});
+
+export default function CardsMensClothingProducts() {
   const navigate = useNavigate();
-  const {
-    jeweleryProducts,
-    getJewelryProducts,
-    // getProductInCategories,
-    addSingleProductToCart,
-  } = useFecthData();
+  const { mensClothing, getMensClothing, addSingleProductToCart } =
+    useFecthData();
   const { userToken } = useDataContext();
+
   useEffect(() => {
-    // getProductInCategories(5);
-    getJewelryProducts();
+    getMensClothing();
   }, []);
   const [pagination, setPagination] = useState({
     count: 5, // initial of anything
@@ -35,7 +49,14 @@ export default function CardsProductCategories() {
     to: pageSize,
   });
 
-  const productsSlice = jeweleryProducts.slice(pagination.from, pagination.to);
+  // console.log(
+  //   pagination.count,
+  //   pagination.from,
+  //   pagination.to,
+  //   "Data Products: ",
+  //   mensClothing.length
+  // );
+  const productsSlice = mensClothing.slice(pagination.from, pagination.to);
   const addToCart = (id?: string | number) => {
     const accessTokenLocal: unknown = localStorage.getItem("access_token");
     const rememberMe: string | null = localStorage.getItem("rememberMe");
@@ -61,7 +82,7 @@ export default function CardsProductCategories() {
     const to = (page - 1) * pageSize + pageSize;
     setPagination({
       ...pagination,
-      count: jeweleryProducts.length,
+      count: mensClothing.length,
       from: from,
       to: to,
     });
@@ -80,16 +101,14 @@ export default function CardsProductCategories() {
       }}
       key={index}
     >
-      {/* <CardHeader
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
-        title={products.title}
-        // subheader={products.description}
-        subheader={products.category?.name}
-      /> */}
+      <ThemeProvider theme={theme}>
+        {/* <CardHeader
+          sx={{ color: "white", fontSize: "0.5rem" }}
+          title={products.title}
+          // subheader={products.description}
+          subheader={`Categories: ${products.category?.name}`}
+        /> */}
+      </ThemeProvider>
       <CardMedia
         component="img"
         sx={{
@@ -136,7 +155,7 @@ export default function CardsProductCategories() {
       <div className="flex gap-10 p-10 m-10 justify-center">
         {renderProducts}
       </div>
-      <div className="flex justify-center items-center p-10 mx-auto">
+      <div className="flex justify-center items-center p-10 my-4 mx-auto">
         <PaginationRounded
           count={Math.ceil(pagination.count / pageSize)}
           onChange={handlePageChange}

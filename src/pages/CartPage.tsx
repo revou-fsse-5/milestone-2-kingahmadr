@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDataContext } from "../contexts/UseDataContext";
 const style = {
-  position: "absolute" as "absolute",
+  position: "absolute" as const,
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -36,6 +36,7 @@ interface valueProps {
   id: number;
   // other properties...
 }
+
 export default function CartPage() {
   const [value, setValue] = useState<valueProps[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);

@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useDataContext } from "../contexts/UseDataContext";
 import { AllProductsProps } from "../interfaces";
+import { maxWidthMediaQuery, fontSizeMediaQuery } from "../constans";
 
 interface SingleProductProps extends AllProductsProps {
   images: string[];
@@ -18,7 +19,7 @@ interface SingleProductProps extends AllProductsProps {
 }
 
 const PageDetails = () => {
-  let { productID } = useParams();
+  const { productID } = useParams();
   const navigate = useNavigate();
   const { singleDataProduct, getSingleProducts, addSingleProductToCart } =
     useFecthData();
@@ -31,7 +32,7 @@ const PageDetails = () => {
     return <div>Loading...</div>;
   }
   const addToCart = (id?: string | number) => {
-    const accessTokenLocal: any = localStorage.getItem("access_token");
+    const accessTokenLocal: unknown = localStorage.getItem("access_token");
     if (accessTokenLocal !== userToken) {
       alert(`You must login first to add product to cart`);
       console.log(userToken);
@@ -52,7 +53,7 @@ const PageDetails = () => {
           border: 1,
           borderColor: "grey.500",
           m: "2rem",
-          maxWidth: "md",
+          maxWidth: maxWidthMediaQuery,
           mx: "auto",
           mt: "10rem",
         }}
@@ -74,7 +75,8 @@ const PageDetails = () => {
             variant="subtitle2"
             sx={{
               color: "text.secondary",
-              fontSize: 40,
+              // fontSize: 40,
+              fontSize: fontSizeMediaQuery,
               ml: "1.5rem",
               textTransform: "capitalize",
               fontWeight: "bold",
@@ -84,7 +86,20 @@ const PageDetails = () => {
           </Typography>
           <Typography
             variant="body2"
-            sx={{ color: "text.secondary", fontSize: 20, m: "1.5rem" }}
+            display={{
+              xs: "none",
+              sm: "block",
+              md: "block",
+            }}
+            sx={{
+              color: "text.secondary",
+              fontSize: {
+                xs: 15,
+                sm: 15,
+                md: 20,
+              },
+              m: "1.5rem",
+            }}
           >
             {product.description}
           </Typography>
@@ -140,7 +155,11 @@ const PageDetails = () => {
           variant="subtitle2"
           sx={{
             color: "text.secondary",
-            fontSize: 40,
+            fontSize: {
+              xs: 10,
+              sm: 20,
+              md: 40,
+            },
             ml: "1.5rem",
             textTransform: "capitalize",
             fontWeight: "bold",
@@ -150,7 +169,15 @@ const PageDetails = () => {
         </Typography>
         <Typography
           variant="body2"
-          sx={{ color: "text.secondary", fontSize: 20, m: "1.5rem" }}
+          sx={{
+            color: "text.secondary",
+            fontSize: {
+              xs: 5,
+              sm: 10,
+              md: 20,
+            },
+            m: "1.5rem",
+          }}
         >
           {(singleDataProduct as SingleProductProps).description}
         </Typography>

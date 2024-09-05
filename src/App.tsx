@@ -16,7 +16,7 @@ import ProtectedRoute from "./modules/ProtectedRoute";
 const NotFound: React.FC = () => <h2>404 Not Found</h2>;
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/products",
     element: <HomePage />,
   },
   {

@@ -10,8 +10,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import CardsAllProducts from "./CardsAllProducts";
-import CardsShoesProducts from "./CardsShoesProducts";
+// import CardsShoesProducts from "./CardsShoesProducts";
 import CardsProductCategories from "./CardsProductCategories";
+import CardsMensClothingProducts from "./CardMensClothingProducts";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -66,8 +67,8 @@ export default function CategoryTab() {
           aria-label="full width tabs example"
         >
           <Tab label="All Products" {...a11yProps(0)} />
-          <Tab label="Miscellanous" {...a11yProps(1)} />
-          <Tab label="Shoes Products" {...a11yProps(2)} />
+          <Tab label="Jewelry" {...a11yProps(1)} />
+          <Tab label="Mens Clothing" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -77,7 +78,7 @@ export default function CategoryTab() {
         <CardsProductCategories />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <CardsShoesProducts />
+        <CardsMensClothingProducts />
       </TabPanel>
     </Box>
   );

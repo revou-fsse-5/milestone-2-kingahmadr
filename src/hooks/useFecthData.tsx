@@ -8,6 +8,12 @@ const useFecthData = () => {
   const [dataProductInCategories, setDataProductInCategories] = useState<
     AllProductsProps[]
   >([]);
+  const [jeweleryProducts, setJewelryProducts] = useState<AllProductsProps[]>(
+    []
+  );
+  const [mensClothing, setMensClothingProducts] = useState<AllProductsProps[]>(
+    []
+  );
   const [dataShoes, setDataShoes] = useState<AllProductsProps[]>([]);
   const [singleDataProduct, setSingleDataProduct] = useState<
     AllProductsProps[]
@@ -77,7 +83,8 @@ const useFecthData = () => {
   };
   const getAllProducts = async () => {
     try {
-      const response = await fetch(`${API_URL}/products?limit=30`, {
+      const trailing: string = "/products?limit=30";
+      const response = await fetch(`${API_URL}${trailing}`, {
         method: "GET",
       });
       if (!response.ok) {
@@ -146,6 +153,44 @@ const useFecthData = () => {
     }
   };
 
+  const getJewelryProducts = async () => {
+    const trailing: string = "/products/category/jewelery";
+    try {
+      const response = await fetch(`${API_URL}${trailing}`, {
+        method: "GET",
+      });
+      if (!response.ok) {
+        alert(
+          `Error fetching Product In Categories Jewelry: ${response.statusText}`
+        );
+      }
+      const responseData = await response.json();
+      setJewelryProducts(responseData);
+
+      console.log(responseData);
+    } catch (error) {
+      alert(`Error fetching Product In Categories Jewelry: ${error}`);
+    }
+  };
+  const getMensClothing = async () => {
+    const trailing: string = "/products/category/men's%20clothing";
+    try {
+      const response = await fetch(`${API_URL}${trailing}`, {
+        method: "GET",
+      });
+      if (!response.ok) {
+        alert(
+          `Error fetching Product In Categories Jewelry: ${response.statusText}`
+        );
+      }
+      const responseData = await response.json();
+      setMensClothingProducts(responseData);
+
+      console.log(responseData);
+    } catch (error) {
+      alert(`Error fetching Product In Categories Jewelry: ${error}`);
+    }
+  };
   const getProductInCategories = async (id: number) => {
     try {
       const response = await fetch(
@@ -165,6 +210,7 @@ const useFecthData = () => {
       alert(`Error fetching Product In Categories: ${error}`);
     }
   };
+
   const getShoesProducts = async () => {
     try {
       const response = await fetch(
@@ -191,10 +237,14 @@ const useFecthData = () => {
     dataShoes,
     singleDataProduct,
     itemInCart,
+    jeweleryProducts,
+    mensClothing,
     userLogin,
     getSingleProducts,
     getAllProducts,
     getProductInCategories,
+    getJewelryProducts,
+    getMensClothing,
     getShoesProducts,
     addSingleProductToCart,
     registerUser,

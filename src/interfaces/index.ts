@@ -1,5 +1,5 @@
-// export interface AllProductsProps {
-//   [key: string]: string | string[] | number | number[];
+// interface CategoryProps {
+//   name: string;
 // }
 export interface AllProductsProps {
   image: string | undefined;
@@ -7,7 +7,9 @@ export interface AllProductsProps {
   title?: string;
   price?: number;
   description?: string;
+  // category?: CategoryProps;
   category?: string;
+  name: string;
   images?: string[];
 }
 

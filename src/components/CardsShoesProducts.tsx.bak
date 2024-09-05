@@ -1,11 +1,10 @@
 import * as React from "react";
 // import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
+// import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
@@ -16,8 +15,25 @@ import useFecthData from "../hooks/useFecthData";
 import { useEffect, useState } from "react";
 import PaginationRounded from "./PaginationRounded";
 import { useDataContext } from "../contexts/UseDataContext";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 const pageSize = 3;
+
+const theme = createTheme({
+  components: {
+    // Name of the component
+    MuiCardHeader: {
+      styleOverrides: {
+        // Name of the slot
+        subheader: {
+          // Some CSS
+          color: "white",
+        },
+      },
+    },
+  },
+});
+
 export default function CardsShoesProducts() {
   const navigate = useNavigate();
   const { dataShoes, getShoesProducts, addSingleProductToCart } =
@@ -73,19 +89,18 @@ export default function CardsShoesProducts() {
   };
 
   const renderProducts = productsSlice.map((products, index) => (
-    <Card sx={{ maxWidth: 345 }} key={index}>
-      <CardHeader
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={products.title}
-        subheader={products.description}
-      />
+    <Card sx={{ maxWidth: 345, bgcolor: "black", color: "white" }} key={index}>
+      <ThemeProvider theme={theme}>
+        {/* <CardHeader
+          sx={{ color: "white", fontSize: "0.5rem" }}
+          title={products.title}
+          // subheader={products.description}
+          subheader={`Categories: ${products.category?.name}`}
+        /> */}
+      </ThemeProvider>
       <CardMedia
         component="img"
-        height="194"
+        height="2rem"
         image={products.images?.[0] ? products.images[0] : "fallback-image-url"}
         alt="Gak onok Gambar e slur"
       />
@@ -104,8 +119,11 @@ export default function CardsShoesProducts() {
       <CardContent>
         <Typography
           variant="body2"
-          sx={{ color: "text.secondary", fontSize: 20, m: 1 }}
+          sx={{ color: "white", fontSize: "1rem", m: 1 }}
         >
+          {`Category: ${products.category?.name}`}
+        </Typography>
+        <Typography variant="body2" sx={{ color: "white", fontSize: 20, m: 1 }}>
           {`Price: $${products.price},00`}
         </Typography>
       </CardContent>
