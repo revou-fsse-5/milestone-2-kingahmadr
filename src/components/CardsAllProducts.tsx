@@ -22,6 +22,7 @@ export default function CardsAllProducts() {
   const { dataProducts, getAllProducts, addSingleProductToCart } =
     useFecthData();
   const { userToken } = useDataContext();
+
   useEffect(() => {
     getAllProducts();
   }, []);
@@ -32,10 +33,10 @@ export default function CardsAllProducts() {
   });
 
   const addToCart = (id?: string | number) => {
-    const accessTokenLocal: unknown = localStorage.getItem("access_token");
+    const accessTokenLocal: unknown = localStorage.getItem("token");
     const rememberMe: string | null = localStorage.getItem("rememberMe");
 
-    if (rememberMe === "true") {
+    if (rememberMe === "true" && accessTokenLocal) {
       console.log("remember me", rememberMe);
       addSingleProductToCart(id);
     } else {
@@ -123,7 +124,7 @@ export default function CardsAllProducts() {
                   <AddShoppingCartIcon />
                 </IconButton>
                 <Button variant="contained">
-                  <Link to={`product/${products.id}`}>See Details</Link>
+                  <Link to={`${products.id}`}>See Details</Link>
                 </Button>
               </CardActions>
             </div>

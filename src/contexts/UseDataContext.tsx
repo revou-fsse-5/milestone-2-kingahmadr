@@ -8,6 +8,7 @@ import React, {
 
 interface userLoginProps {
   access_token: string;
+  token: string;
 }
 
 interface DataContextType {
@@ -18,7 +19,7 @@ interface DataContextType {
   addCartTotalContext: () => void;
   handleTrigger: () => void;
   login: () => void;
-  handleToken: (access_token: userLoginProps) => void;
+  handleToken: (token: userLoginProps) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -26,7 +27,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return !!localStorage.getItem("access_token");
+    return !!localStorage.getItem("token");
   });
   const [total, setTotal] = useState(0);
   const [triggerInContext, setTriggerInContext] = useState(false);
@@ -35,8 +36,8 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   const login = () => {
     setIsAuthenticated(true);
   };
-  const handleToken = (access_token: userLoginProps) => {
-    setUserToken(access_token);
+  const handleToken = (token: userLoginProps) => {
+    setUserToken(token);
   };
   const handleTrigger = () => {
     setTriggerInContext(!triggerInContext);

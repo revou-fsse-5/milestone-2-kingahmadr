@@ -12,15 +12,21 @@ import CartPage from "./pages/CartPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./modules/ProtectedRoute";
+import Pages404 from "./pages/Pages404";
 
-const NotFound: React.FC = () => <h2>404 Not Found</h2>;
 const router = createBrowserRouter([
   {
     path: "/products",
     element: <HomePage />,
+    // children: [
+    //   {
+    //     path: "/products/:productID",
+    //     element: <PageDetails />,
+    //   },
+    // ],
   },
   {
-    path: "/product/:productID",
+    path: "/products/:productID",
     element: <PageDetails />,
   },
   {
@@ -46,7 +52,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <NotFound />,
+    element: <Pages404 />,
   },
 ]);
 

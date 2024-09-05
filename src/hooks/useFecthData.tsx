@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { AllProductsProps, UserProps } from "../interfaces";
+import { AllProductsProps, registerUserProps, UserProps } from "../interfaces";
 import { useNavigate } from "react-router-dom";
 import { useDataContext } from "../contexts/UseDataContext";
 
+interface LoginProps extends UserProps {
+  username?: string;
+}
 const useFecthData = () => {
   const [dataProducts, setDataProducts] = useState<AllProductsProps[]>([]);
   const [dataProductInCategories, setDataProductInCategories] = useState<
@@ -14,6 +17,7 @@ const useFecthData = () => {
   const [mensClothing, setMensClothingProducts] = useState<AllProductsProps[]>(
     []
   );
+  const [womensClothing, setWomensClothing] = useState<AllProductsProps[]>([]);
   const [dataShoes, setDataShoes] = useState<AllProductsProps[]>([]);
   const [singleDataProduct, setSingleDataProduct] = useState<
     AllProductsProps[]
@@ -26,6 +30,37 @@ const useFecthData = () => {
 
   // const API_URL = "https://api.escuelajs.co/api/v1";
   const API_URL = "https://fakestoreapi.com";
+  const userAuth = async (data: LoginProps, isChecked: boolean) => {
+    const bodyData = JSON.stringify(data);
+
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: bodyData,
+      });
+      if (!response.ok) {
+        alert(`Error On Login: ${response.statusText}`);
+        return;
+      }
+      const responseData = await response.json();
+      handleToken(responseData.token);
+      console.log(userToken);
+      if (isChecked) {
+        localStorage.setItem("rememberMe", "true");
+      }
+      login();
+      alert(`Login Success`);
+
+      localStorage.setItem("token", responseData.token);
+      console.log(responseData.token);
+      navigate("/products");
+    } catch (error) {
+      alert(`Error On Login: ${error}`);
+    }
+  };
   const userLogin = async (data: UserProps, isChecked: boolean) => {
     const bodyData = JSON.stringify(data);
 
@@ -52,11 +87,35 @@ const useFecthData = () => {
 
       localStorage.setItem("access_token", responseData.access_token);
       console.log(responseData.access_token);
-      navigate("/");
+      navigate("/products");
     } catch (error) {
       alert(`Error On Login: ${error}`);
     }
   };
+  const addUsersMultiStep = async (data: registerUserProps) => {
+    const bodyData = JSON.stringify(data);
+    try {
+      const response = await fetch(`${API_URL}/users/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: bodyData,
+      });
+      if (!response.ok) {
+        alert(`Error Adding new user: ${response.statusText}`);
+        return;
+      }
+      const responseData = await response.json();
+      alert(`Success adding new user`);
+      navigate("/login");
+
+      console.log(responseData);
+    } catch (error) {
+      alert(`Error Adding new user: ${error}`);
+    }
+  };
+
   const registerUser = async (data: UserProps) => {
     const bodyData = JSON.stringify(data);
 
@@ -105,13 +164,14 @@ const useFecthData = () => {
       });
       if (!response.ok) {
         alert(`Error fetching Single Products: ${response.statusText}`);
-        navigate("/");
+        navigate("/products");
       }
       const responseData = await response.json();
       setSingleDataProduct([responseData]);
+      console.log("single products ", responseData);
     } catch (error) {
       alert(`Error fetching data Single Products: ${error}`);
-      navigate("/");
+      navigate("/products");
     }
   };
   const addSingleProductToCart = async (id: string | undefined | number) => {
@@ -121,7 +181,7 @@ const useFecthData = () => {
       });
       if (!response.ok) {
         alert(`Error fetching Single Products: ${response.statusText}`);
-        navigate("/");
+        navigate("/products");
       }
       const responseData = await response.json();
 
@@ -149,7 +209,7 @@ const useFecthData = () => {
       return responseData;
     } catch (error) {
       alert(`Error fetching data Single Products: ${error}`);
-      navigate("/");
+      navigate("/products");
     }
   };
 
@@ -180,7 +240,7 @@ const useFecthData = () => {
       });
       if (!response.ok) {
         alert(
-          `Error fetching Product In Categories Jewelry: ${response.statusText}`
+          `Error fetching Product In Categories Mens Clothing: ${response.statusText}`
         );
       }
       const responseData = await response.json();
@@ -189,6 +249,25 @@ const useFecthData = () => {
       console.log(responseData);
     } catch (error) {
       alert(`Error fetching Product In Categories Jewelry: ${error}`);
+    }
+  };
+  const getWomensClothing = async () => {
+    const trailing: string = "/products/category/women's%20clothing";
+    try {
+      const response = await fetch(`${API_URL}${trailing}`, {
+        method: "GET",
+      });
+      if (!response.ok) {
+        alert(
+          `Error fetching Product In Categories womens clothing: ${response.statusText}`
+        );
+      }
+      const responseData = await response.json();
+      setWomensClothing(responseData);
+
+      console.log(responseData);
+    } catch (error) {
+      alert(`Error fetching Product In Categories womens clothing: ${error}`);
     }
   };
   const getProductInCategories = async (id: number) => {
@@ -239,15 +318,19 @@ const useFecthData = () => {
     itemInCart,
     jeweleryProducts,
     mensClothing,
+    womensClothing,
+    userAuth,
     userLogin,
     getSingleProducts,
     getAllProducts,
     getProductInCategories,
     getJewelryProducts,
     getMensClothing,
+    getWomensClothing,
     getShoesProducts,
     addSingleProductToCart,
     registerUser,
+    addUsersMultiStep,
   };
 };
 

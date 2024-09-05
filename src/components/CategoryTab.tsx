@@ -13,6 +13,7 @@ import CardsAllProducts from "./CardsAllProducts";
 // import CardsShoesProducts from "./CardsShoesProducts";
 import CardsProductCategories from "./CardsProductCategories";
 import CardsMensClothingProducts from "./CardMensClothingProducts";
+import CardsWomensClothing from "./CardsWomenClothingProducts";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -69,6 +70,7 @@ export default function CategoryTab() {
           <Tab label="All Products" {...a11yProps(0)} />
           <Tab label="Jewelry" {...a11yProps(1)} />
           <Tab label="Mens Clothing" {...a11yProps(2)} />
+          <Tab label="Womens Clothing" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -79,6 +81,9 @@ export default function CategoryTab() {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <CardsMensClothingProducts />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <CardsWomensClothing />
       </TabPanel>
     </Box>
   );

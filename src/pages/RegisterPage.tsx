@@ -1,10 +1,11 @@
 // import React from "react";
-import RegisterForm from "../components/RegisterForm";
+// import RegisterForm from "../components/RegisterForm";
+import MultiStepForm from "../modules/MultiStepForm";
 
 const RegisterPage = () => {
   return (
     <div className="register-page">
-      <RegisterForm />
+      <MultiStepForm />
     </div>
   );
 };

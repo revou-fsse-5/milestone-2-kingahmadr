@@ -34,14 +34,14 @@ const theme = createTheme({
   },
 });
 
-export default function CardsShoesProducts() {
+export default function CardsWomensClothing() {
   const navigate = useNavigate();
-  const { dataShoes, getShoesProducts, addSingleProductToCart } =
+  const { womensClothing, getWomensClothing, addSingleProductToCart } =
     useFecthData();
   const { userToken } = useDataContext();
 
   useEffect(() => {
-    getShoesProducts();
+    getWomensClothing();
   }, []);
   const [pagination, setPagination] = useState({
     count: 5, // initial of anything
@@ -49,14 +49,14 @@ export default function CardsShoesProducts() {
     to: pageSize,
   });
 
-  console.log(
-    pagination.count,
-    pagination.from,
-    pagination.to,
-    "Data Products: ",
-    dataShoes.length
-  );
-  const productsSlice = dataShoes.slice(pagination.from, pagination.to);
+  // console.log(
+  //   pagination.count,
+  //   pagination.from,
+  //   pagination.to,
+  //   "Data Products: ",
+  //   mensClothing.length
+  // );
+  const productsSlice = womensClothing.slice(pagination.from, pagination.to);
   const addToCart = (id?: string | number) => {
     const accessTokenLocal: unknown = localStorage.getItem("token");
     const rememberMe: string | null = localStorage.getItem("rememberMe");
@@ -82,14 +82,25 @@ export default function CardsShoesProducts() {
     const to = (page - 1) * pageSize + pageSize;
     setPagination({
       ...pagination,
-      count: dataShoes.length,
+      count: womensClothing.length,
       from: from,
       to: to,
     });
   };
 
   const renderProducts = productsSlice.map((products, index) => (
-    <Card sx={{ maxWidth: 345, bgcolor: "black", color: "white" }} key={index}>
+    <Card
+      sx={{
+        maxWidth: "20rem",
+        display: "flex",
+        justifyContent: "space-between",
+        flexDirection: "column",
+        borderColor: "black",
+        borderWidth: "medium",
+        p: "0.5rem",
+      }}
+      key={index}
+    >
       <ThemeProvider theme={theme}>
         {/* <CardHeader
           sx={{ color: "white", fontSize: "0.5rem" }}
@@ -100,33 +111,42 @@ export default function CardsShoesProducts() {
       </ThemeProvider>
       <CardMedia
         component="img"
-        height="2rem"
-        image={products.images?.[0] ? products.images[0] : "fallback-image-url"}
-        alt="Gak onok Gambar e slur"
+        sx={{
+          maxHeight: "20rem",
+          width: "full",
+        }}
+        // image={products.images?.[0] ? products.images[0] : "fallback-image-url"}
+        image={products.image}
+        alt="Gaonok gambar e slur"
       />
-      <CardActions disableSpacing>
-        <IconButton
-          onClick={() => addToCart(products.id)}
-          color="primary"
-          aria-label="add to shopping cart"
-        >
-          <AddShoppingCartIcon />
-        </IconButton>
-        <Button variant="contained">
-          <Link to={`product/${products.id}`}>See Details</Link>
-        </Button>
-      </CardActions>
-      <CardContent>
-        <Typography
-          variant="body2"
-          sx={{ color: "white", fontSize: "1rem", m: 1 }}
-        >
-          {`Category: ${products.category?.name}`}
-        </Typography>
-        <Typography variant="body2" sx={{ color: "white", fontSize: 20, m: 1 }}>
-          {`Price: $${products.price},00`}
-        </Typography>
-      </CardContent>
+      <div>
+        <CardContent>
+          <Typography
+            variant="body2"
+            sx={{ color: "black", fontSize: "1rem", m: 1 }}
+          >
+            {`Category: ${products.category}`}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ color: "text.secondary", fontSize: 20, m: 1 }}
+          >
+            {`Price: $${products.price},00`}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton
+            onClick={() => addToCart(products.id)}
+            color="primary"
+            aria-label="add to shopping cart"
+          >
+            <AddShoppingCartIcon />
+          </IconButton>
+          <Button variant="contained">
+            <Link to={`product/${products.id}`}>See Details</Link>
+          </Button>
+        </CardActions>
+      </div>
     </Card>
   ));
 

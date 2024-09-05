@@ -37,7 +37,7 @@ export default function CardsProductCategories() {
 
   const productsSlice = jeweleryProducts.slice(pagination.from, pagination.to);
   const addToCart = (id?: string | number) => {
-    const accessTokenLocal: unknown = localStorage.getItem("access_token");
+    const accessTokenLocal: unknown = localStorage.getItem("token");
     const rememberMe: string | null = localStorage.getItem("rememberMe");
 
     if (rememberMe === "true") {

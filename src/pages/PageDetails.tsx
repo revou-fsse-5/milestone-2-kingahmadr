@@ -32,7 +32,7 @@ const PageDetails = () => {
     return <div>Loading...</div>;
   }
   const addToCart = (id?: string | number) => {
-    const accessTokenLocal: unknown = localStorage.getItem("access_token");
+    const accessTokenLocal: unknown = localStorage.getItem("token");
     if (accessTokenLocal !== userToken) {
       alert(`You must login first to add product to cart`);
       console.log(userToken);
@@ -64,9 +64,10 @@ const PageDetails = () => {
           <CardMedia
             component="img"
             height="auto"
-            image={
-              product.images?.[0] ? product.images[0] : "fallback-image-url"
-            }
+            // image={
+            //   product.images?.[0] ? product.images[0] : "fallback-image-url"
+            // }
+            image={product.image}
             alt="Product image"
           />
         </Card>

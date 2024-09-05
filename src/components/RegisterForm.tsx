@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { UserProps } from "../interfaces";
 import useFecthData from "../hooks/useFecthData";
 import tailwindStyles from "../scripts/constans/styles";
-import { RegisterValidationForm } from "../modules/ValidationSchema";
+import { RegisterValidationForm } from "../modules/Schema";
 import Navbar from "./Navbar";
 
 const RegisterForm = () => {

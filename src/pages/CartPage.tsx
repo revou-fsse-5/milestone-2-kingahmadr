@@ -42,7 +42,7 @@ export default function CartPage() {
   const [totalPrice, setTotalPrice] = useState(0);
   //   const [trigger, setTrigger] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const { triggerInContext, handleTrigger } = useDataContext();
+  const { userToken, triggerInContext, handleTrigger } = useDataContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,12 +71,29 @@ export default function CartPage() {
     console.log("Total Price Aggregate", totalPriceAggregate);
   }, [value]);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    const accessTokenLocal: unknown = localStorage.getItem("token");
+    const rememberMe: string | null = localStorage.getItem("rememberMe");
+
+    if (rememberMe === "true" && accessTokenLocal) {
+      console.log("remember me", rememberMe);
+
+      setOpen(true);
+    } else {
+      if (accessTokenLocal !== userToken) {
+        alert(`You must login first to checkout product from cart`);
+        console.log(userToken);
+        navigate("/login");
+      } else {
+        setOpen(true);
+      }
+    }
+  };
   const handleClose = () => setOpen(false);
   const returnHome = () => {
     localStorage.removeItem("Carted");
     handleTrigger();
-    navigate("/");
+    navigate("/products");
   };
   const handleRemoveFromCart = (idToRemove: number) => {
     const storeData = localStorage.getItem("Carted");
