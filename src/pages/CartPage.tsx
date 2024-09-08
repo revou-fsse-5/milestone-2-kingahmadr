@@ -13,7 +13,6 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import { useNavigate } from "react-router-dom";
 
 // import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -91,23 +90,6 @@ export default function CartPage() {
     }
   };
   const handleClose = () => setOpen(false);
-  const handleQuantityChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    const newQuantity = Number(event.target.value); // Get the new quantity from the event
-    const storedData = localStorage.getItem("Carted");
-    const itemArray = storedData ? JSON.parse(storedData) : [];
-
-    const updatedItems = itemArray.map((item: any) => {
-      if (item.id === id) {
-        return { ...item, quantity: newQuantity }; // Update the quantity of the matching item
-      }
-      return item; // Return the item as is if it doesn't match the id
-    });
-
-    localStorage.setItem("Carted", JSON.stringify(updatedItems)); // Save the updated array back to localStorage
-  };
   const returnHome = () => {
     localStorage.removeItem("Carted");
     handleTrigger();
