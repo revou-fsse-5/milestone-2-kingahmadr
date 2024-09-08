@@ -14,11 +14,15 @@ import useFecthData from "../hooks/useFecthData";
 import { useDataContext } from "../contexts/UseDataContext";
 import { useEffect, useState } from "react";
 import PaginationRounded from "./PaginationRounded";
+import Loader from "./Loader/Loader";
 
 const pageSize = 3;
 export default function CardsProductCategories() {
+  const { RotatingLoader } = Loader();
+
   const navigate = useNavigate();
   const {
+    isLoading,
     jeweleryProducts,
     getJewelryProducts,
     // getProductInCategories,
@@ -80,16 +84,6 @@ export default function CardsProductCategories() {
       }}
       key={index}
     >
-      {/* <CardHeader
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
-        title={products.title}
-        // subheader={products.description}
-        subheader={products.category?.name}
-      /> */}
       <CardMedia
         component="img"
         sx={{
@@ -134,7 +128,7 @@ export default function CardsProductCategories() {
   return (
     <>
       <div className="flex gap-10 p-10 m-10 justify-center">
-        {renderProducts}
+        {isLoading ? RotatingLoader : <>{renderProducts}</>}
       </div>
       <div className="flex justify-center items-center p-10 mx-auto">
         <PaginationRounded

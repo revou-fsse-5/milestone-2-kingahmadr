@@ -26,14 +26,20 @@ const useFecthData = () => {
   const { userToken, handleToken, addCartTotalContext, login } =
     useDataContext();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   // const API_URL = "https://api.escuelajs.co/api/v1";
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
   const API_URL = "https://fakestoreapi.com";
   const userAuth = async (data: LoginProps, isChecked: boolean) => {
     const bodyData = JSON.stringify(data);
 
     try {
+      setIsLoading(true);
+      await delay(5000);
       const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
@@ -59,12 +65,16 @@ const useFecthData = () => {
       navigate("/products");
     } catch (error) {
       alert(`Error On Login: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
   const userLogin = async (data: UserProps, isChecked: boolean) => {
     const bodyData = JSON.stringify(data);
 
     try {
+      setIsLoading(true);
+      await delay(5000);
       const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
@@ -90,11 +100,15 @@ const useFecthData = () => {
       navigate("/products");
     } catch (error) {
       alert(`Error On Login: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
   const addUsersMultiStep = async (data: registerUserProps) => {
     const bodyData = JSON.stringify(data);
     try {
+      setIsLoading(true);
+      await delay(5000);
       const response = await fetch(`${API_URL}/users/`, {
         method: "POST",
         headers: {
@@ -113,6 +127,8 @@ const useFecthData = () => {
       console.log(responseData);
     } catch (error) {
       alert(`Error Adding new user: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -140,9 +156,14 @@ const useFecthData = () => {
       alert(`Error Adding new user: ${error}`);
     }
   };
+
   const getAllProducts = async () => {
     try {
+      setIsLoading(true);
       const trailing: string = "/products?limit=30";
+
+      await delay(10000);
+
       const response = await fetch(`${API_URL}${trailing}`, {
         method: "GET",
       });
@@ -155,6 +176,9 @@ const useFecthData = () => {
       console.log(responseData);
     } catch (error) {
       alert(`Error fetching data Products: ${error}`);
+    } finally {
+      setIsLoading(false);
+      console.log("isLoading", isLoading);
     }
   };
   const getSingleProducts = async (id: string | undefined) => {
@@ -235,6 +259,8 @@ const useFecthData = () => {
   const getMensClothing = async () => {
     const trailing: string = "/products/category/men's%20clothing";
     try {
+      setIsLoading(true);
+      await delay(10000);
       const response = await fetch(`${API_URL}${trailing}`, {
         method: "GET",
       });
@@ -249,11 +275,15 @@ const useFecthData = () => {
       console.log(responseData);
     } catch (error) {
       alert(`Error fetching Product In Categories Jewelry: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
   const getWomensClothing = async () => {
     const trailing: string = "/products/category/women's%20clothing";
     try {
+      setIsLoading(true);
+      await delay(10000);
       const response = await fetch(`${API_URL}${trailing}`, {
         method: "GET",
       });
@@ -268,10 +298,14 @@ const useFecthData = () => {
       console.log(responseData);
     } catch (error) {
       alert(`Error fetching Product In Categories womens clothing: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
   const getProductInCategories = async (id: number) => {
     try {
+      setIsLoading(true);
+      await delay(10000);
       const response = await fetch(
         `${API_URL}/categories/${id}/products?limit=30&offset=1`,
         {
@@ -287,11 +321,15 @@ const useFecthData = () => {
       console.log(responseData);
     } catch (error) {
       alert(`Error fetching Product In Categories: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const getShoesProducts = async () => {
     try {
+      setIsLoading(true);
+      await delay(10000);
       const response = await fetch(
         `${API_URL}/categories/4/products?limit=30&offset=1`,
         {
@@ -307,10 +345,13 @@ const useFecthData = () => {
       console.log(responseData);
     } catch (error) {
       alert(`Error fetching Books: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return {
+    isLoading,
     dataProducts,
     dataProductInCategories,
     dataShoes,

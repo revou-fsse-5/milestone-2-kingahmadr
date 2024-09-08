@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import PaginationRounded from "./PaginationRounded";
 import { useDataContext } from "../contexts/UseDataContext";
 import { createTheme, ThemeProvider } from "@mui/material";
+import Loader from "./Loader/Loader";
 
 const pageSize = 3;
 
@@ -35,9 +36,15 @@ const theme = createTheme({
 });
 
 export default function CardsWomensClothing() {
+  const { RotatingLoader } = Loader();
+
   const navigate = useNavigate();
-  const { womensClothing, getWomensClothing, addSingleProductToCart } =
-    useFecthData();
+  const {
+    isLoading,
+    womensClothing,
+    getWomensClothing,
+    addSingleProductToCart,
+  } = useFecthData();
   const { userToken } = useDataContext();
 
   useEffect(() => {
@@ -153,7 +160,7 @@ export default function CardsWomensClothing() {
   return (
     <>
       <div className="flex gap-10 p-10 m-10 justify-center">
-        {renderProducts}
+        {isLoading ? RotatingLoader : <>{renderProducts}</>}
       </div>
       <div className="flex justify-center items-center p-10 my-4 mx-auto">
         <PaginationRounded

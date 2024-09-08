@@ -14,13 +14,16 @@ import useFecthData from "../hooks/useFecthData";
 import { useEffect, useState } from "react";
 import PaginationRounded from "./PaginationRounded";
 import { useDataContext } from "../contexts/UseDataContext";
+import Loader from "./Loader/Loader";
 
 const pageSize = 3;
 
 export default function CardsAllProducts() {
   const navigate = useNavigate();
-  const { dataProducts, getAllProducts, addSingleProductToCart } =
+  const { isLoading, dataProducts, getAllProducts, addSingleProductToCart } =
     useFecthData();
+  const { RotatingLoader } = Loader();
+
   const { userToken } = useDataContext();
 
   useEffect(() => {
@@ -50,7 +53,7 @@ export default function CardsAllProducts() {
     }
   };
 
-  console.log(pagination.count, pagination.from, pagination.to);
+  // console.log(pagination.count, pagination.from, pagination.to);
   const productsSlice = dataProducts.slice(pagination.from, pagination.to);
 
   const handlePageChange = (
@@ -67,69 +70,71 @@ export default function CardsAllProducts() {
     });
   };
 
+  const renderProducts = productsSlice.map((products, index) => (
+    <Card
+      sx={{
+        maxWidth: "20rem",
+        display: "flex",
+        justifyContent: "space-between",
+        flexDirection: "column",
+        borderColor: "black",
+        borderWidth: "medium",
+        p: "0.5rem",
+      }}
+      key={index}
+    >
+      {/* <CardHeader
+          title={products.title}
+          subheader={products.category?.name}
+        /> */}
+      <CardMedia
+        component="img"
+        height="2rem"
+        // image={
+        //   products.images?.[0] ? products.images[0] : "fallback-image-url"
+        // }
+        image={products.image}
+        alt="Gaonok gambar e slurr"
+        sx={{
+          maxHeight: "20rem",
+          width: "full",
+        }}
+      />
+      <div>
+        <CardContent>
+          <Typography
+            variant="body2"
+            sx={{ color: "black", fontSize: "1rem", m: 1 }}
+          >
+            {`Category: ${products.category}`}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ color: "text.secondary", fontSize: 20, m: 1 }}
+          >
+            {`Price: $${products.price},00`}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton
+            onClick={() => addToCart(products.id)}
+            color="primary"
+            aria-label="add to shopping cart"
+          >
+            <AddShoppingCartIcon />
+          </IconButton>
+          <Button variant="contained">
+            <Link to={`${products.id}`}>See Details</Link>
+          </Button>
+        </CardActions>
+      </div>
+    </Card>
+  ));
+
   return (
     <>
       <div className="flex gap-10 p-10 justify-center">
-        {productsSlice.map((products, index) => (
-          <Card
-            sx={{
-              maxWidth: "20rem",
-              display: "flex",
-              justifyContent: "space-between",
-              flexDirection: "column",
-              borderColor: "black",
-              borderWidth: "medium",
-              p: "0.5rem",
-            }}
-            key={index}
-          >
-            {/* <CardHeader
-              title={products.title}
-              subheader={products.category?.name}
-            /> */}
-            <CardMedia
-              component="img"
-              height="2rem"
-              // image={
-              //   products.images?.[0] ? products.images[0] : "fallback-image-url"
-              // }
-              image={products.image}
-              alt="Gaonok gambar e slurr"
-              sx={{
-                maxHeight: "20rem",
-                width: "full",
-              }}
-            />
-            <div>
-              <CardContent>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "black", fontSize: "1rem", m: 1 }}
-                >
-                  {`Category: ${products.category}`}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary", fontSize: 20, m: 1 }}
-                >
-                  {`Price: $${products.price},00`}
-                </Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-                <IconButton
-                  onClick={() => addToCart(products.id)}
-                  color="primary"
-                  aria-label="add to shopping cart"
-                >
-                  <AddShoppingCartIcon />
-                </IconButton>
-                <Button variant="contained">
-                  <Link to={`${products.id}`}>See Details</Link>
-                </Button>
-              </CardActions>
-            </div>
-          </Card>
-        ))}
+        {isLoading ? RotatingLoader : <>{renderProducts}</>}
       </div>
       <div className="flex justify-center items-center p-10 mx-auto">
         <PaginationRounded
