@@ -92,7 +92,7 @@ export default function Navbar() {
       open={isHumbergerButtonOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => navigate("/")}>Home</MenuItem>
+      <MenuItem onClick={() => navigate("/products")}>Home</MenuItem>
       <MenuItem onClick={() => navigate("/checkout")}>Checkout</MenuItem>
       {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
     </Menu>
@@ -123,7 +123,8 @@ export default function Navbar() {
             >
               <LoginIcon />
             </IconButton>
-            <p>Login</p>
+            <button onClick={() => navigate("/login")}>Login</button>
+            {/* <p>Login</p> */}
           </MenuItem>
           <MenuItem>
             <IconButton
@@ -133,7 +134,7 @@ export default function Navbar() {
             >
               <PersonAddAltIcon />
             </IconButton>
-            <p>Register</p>
+            <button onClick={() => navigate("/register")}>Register</button>
           </MenuItem>
         </div>
       ) : (
@@ -157,7 +158,7 @@ export default function Navbar() {
             <IconButton onClick={handleLogout} size="large" color="inherit">
               <LogoutIcon />
             </IconButton>
-            <p>Logout</p>
+            <button onClick={handleLogout}>logout</button>
           </MenuItem>
         </div>
       )}

@@ -162,7 +162,7 @@ const useFecthData = () => {
       setIsLoading(true);
       const trailing: string = "/products?limit=30";
 
-      await delay(10000);
+      await delay(5000);
 
       const response = await fetch(`${API_URL}${trailing}`, {
         method: "GET",
@@ -240,6 +240,8 @@ const useFecthData = () => {
   const getJewelryProducts = async () => {
     const trailing: string = "/products/category/jewelery";
     try {
+      setIsLoading(true);
+      await delay(5000);
       const response = await fetch(`${API_URL}${trailing}`, {
         method: "GET",
       });
@@ -254,13 +256,15 @@ const useFecthData = () => {
       console.log(responseData);
     } catch (error) {
       alert(`Error fetching Product In Categories Jewelry: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
   const getMensClothing = async () => {
     const trailing: string = "/products/category/men's%20clothing";
     try {
       setIsLoading(true);
-      await delay(10000);
+      await delay(5000);
       const response = await fetch(`${API_URL}${trailing}`, {
         method: "GET",
       });
@@ -283,7 +287,7 @@ const useFecthData = () => {
     const trailing: string = "/products/category/women's%20clothing";
     try {
       setIsLoading(true);
-      await delay(10000);
+      await delay(5000);
       const response = await fetch(`${API_URL}${trailing}`, {
         method: "GET",
       });
@@ -305,7 +309,7 @@ const useFecthData = () => {
   const getProductInCategories = async (id: number) => {
     try {
       setIsLoading(true);
-      await delay(10000);
+      await delay(5000);
       const response = await fetch(
         `${API_URL}/categories/${id}/products?limit=30&offset=1`,
         {
@@ -329,7 +333,7 @@ const useFecthData = () => {
   const getShoesProducts = async () => {
     try {
       setIsLoading(true);
-      await delay(10000);
+      await delay(5000);
       const response = await fetch(
         `${API_URL}/categories/4/products?limit=30&offset=1`,
         {
