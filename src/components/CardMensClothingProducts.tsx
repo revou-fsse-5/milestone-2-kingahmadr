@@ -155,7 +155,7 @@ export default function CardsMensClothingProducts() {
 
   return (
     <>
-      <div className="flex gap-10 p-10 m-10 justify-center">
+      <div className="flex gap-10 p-10 justify-center">
         {isLoading ? RotatingLoader : <>{renderProducts}</>}
       </div>
       <div className="flex justify-center items-center p-10 my-4 mx-auto">

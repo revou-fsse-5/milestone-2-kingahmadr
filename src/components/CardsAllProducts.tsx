@@ -83,10 +83,6 @@ export default function CardsAllProducts() {
       }}
       key={index}
     >
-      {/* <CardHeader
-          title={products.title}
-          subheader={products.category?.name}
-        /> */}
       <CardMedia
         component="img"
         height="2rem"
